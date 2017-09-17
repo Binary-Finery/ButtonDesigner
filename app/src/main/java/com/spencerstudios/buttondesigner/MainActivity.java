@@ -4,7 +4,10 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
+import android.support.annotation.FloatRange;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
@@ -25,9 +28,9 @@ import static android.view.View.GONE;
 import static android.view.View.OnClickListener;
 import static android.view.View.VISIBLE;
 
-public class MainActivity extends AppCompatActivity implements OnClickListener {
+public class MainActivity extends AppCompatActivity implements OnClickListener, TextWatcher {
 
-    private Button btnPreview, btnApply;
+    private Button btnPreview;
     private Button startColor, centerColor, endColor, borderColor, genXml;
     private TextView tvSolid, tvGrad, tvLinear, tvRadial, tvHor, tvVert;
 
@@ -61,6 +64,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     private EditText etCx, etCy, etRad;
 
+    private GradientDrawable shape;
+
+    private String c1, c2, c3;
+
     Button preview;
 
     @Override
@@ -70,6 +77,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         if (getSupportActionBar() != null) getSupportActionBar().hide();
 
         findViews();
+
+
+
+        shape = new GradientDrawable();
 
         rowType = (TableRow) findViewById(R.id.row_type);
         rowCX = (TableRow) findViewById(R.id.row_center_x);
@@ -94,15 +105,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         tvHor = (TextView) findViewById(R.id.tv_horizontal);
         tvVert = (TextView) findViewById(R.id.tv_vertical);
 
-        btnApply = (Button)findViewById(R.id.btn_apply);
-
         tvLinear.setOnClickListener(this);
         tvRadial.setOnClickListener(this);
 
         tvVert.setOnClickListener(this);
         tvHor.setOnClickListener(this);
-
-        btnApply.setOnClickListener(this);
 
         if (vertical) setBackground(tvVert, tvHor);
         else setBackground(tvHor, tvVert);
@@ -121,18 +128,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                         vis(rowCen, 0);
                     }
                 }
+                applySettings();
             }
         });
 
-        cbGradient.setChecked(useGradient);
-
-        cbGradient.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                useGradient = isChecked;
-                displayMechanics();
-            }
-        });
 
         cp = new ColorPicker(MainActivity.this, 0, 0, 0);
 
@@ -162,10 +161,29 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             }
         });
 
+        cbGradient.setChecked(useGradient);
+
+        cbGradient.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                useGradient = isChecked;
+                displayMechanics();
+                applySettings();
+            }
+        });
+
 
         startColor = (Button) findViewById(R.id.start_color);
         centerColor = (Button) findViewById(R.id.center_color);
         endColor = (Button) findViewById(R.id.end_color);
+
+        startColor.addTextChangedListener(this);
+        centerColor.addTextChangedListener(this);
+        endColor.addTextChangedListener(this);
+
+        etCx.addTextChangedListener(this);
+        etCy.addTextChangedListener(this);
+        etRad.addTextChangedListener(this);
 
         //genXml = (Button) findViewById(R.id.btn_xml);
 
@@ -178,13 +196,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         displayMechanics();
 
-        applyButtonProperties();
+        //applyButtonProperties();
+
+        applySettings();
     }
 
     private void applyButtonProperties() {
 
-
-        GradientDrawable shape = new GradientDrawable();
         shape.setShape(GradientDrawable.RECTANGLE);
 
         if (useGradient && !linearSelected) {
@@ -210,13 +228,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             if (hasCenterColor) {
                 int[] c = {Color.parseColor("#000000"), Color.parseColor("#ffffff"), Color.parseColor("#000000")};
                 shape.setColors(c);
-            }else{
-                int[] c = {Color.parseColor(c1), Color.parseColor(c3)};
+            } else {
+                int[] c = {Color.parseColor("#000000"), Color.parseColor("#ffffff")};
                 shape.setColors(c);
             }
         }
         //shape.setOrientation(ORIENTATION[0]);
-
 
         shape.setSize(convertDpToPx(270), convertDpToPx(60));
 
@@ -300,18 +317,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             vertical = true;
         }
 
-        if (v == btnApply){
-            applyButtonProperties();
-        }
-
     }
 
 
     private void findViews() {
-        //btnPreview = (Button) findViewById(R.id.button);
-        btnApply = (Button) findViewById(R.id.btn_apply);
-
-
     }
 
     private void constructXml() {
@@ -403,6 +412,47 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         tr.setVisibility(visible ? VISIBLE : GONE);
     }
 
+    private void applySettings() {
+
+        shape  = new GradientDrawable();
+        if (useGradient) {
+
+            c1 = startColor.getText().toString();
+            c2 = centerColor.getText().toString();
+            c3 = endColor.getText().toString();
+
+            if (hasCenterColor) {
+                int[] c = {Color.parseColor(c1), Color.parseColor(c2), Color.parseColor(c3)};
+                shape.setColors(c);
+            } else {
+                int[] c = {Color.parseColor(c1), Color.parseColor(c3)};
+                shape.setColors(c);
+            }
+        }else {
+            c1 = startColor.getText().toString();
+            shape.setColor(Color.parseColor(c1));
+        }
+
+        if (!linearSelected) {
+
+            shape.setGradientType(GradientDrawable.RADIAL_GRADIENT);
+
+            String sx = etCx.getText().toString(), sy = etCy.getText().toString(), sr = etRad.getText().toString();
+            if (sx.length() < 1) sx = "0";
+            if (sy.length() < 1) sy = "0";
+            if (sr.length() < 1) sr = "0";
+
+            float fx = Float.parseFloat(sx) / 100;
+            float fy = Float.parseFloat(sy) / 100;
+            int ir = Integer.parseInt(sr);
+
+            shape.setGradientCenter(fx, fy);
+            shape.setGradientRadius(convertDpToPx(ir));
+        }
+
+        preview.setBackgroundDrawable(shape);
+    }
+
     private int convertDpToPx(int dp) {
         displayMetrics = getResources().getDisplayMetrics();
         return (int) ((dp * displayMetrics.density) + .5);
@@ -410,6 +460,21 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     private int toInt(EditText et) {
         return Integer.parseInt(et.getText().toString());
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        applySettings();
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }
 

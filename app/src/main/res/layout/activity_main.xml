@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="10dp"
     tools:context="com.spencerstudios.buttondesigner.MainActivity">
@@ -31,12 +32,6 @@
             android:text="Button"
             android:textColor="#FFFFFF"
             android:textSize="30sp" />
-
-        <Button
-            android:id="@+id/btn_apply"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="apply" />
 
         <TableLayout
             android:layout_width="wrap_content"
@@ -264,6 +259,7 @@
                     android:id="@+id/start_color"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="#525252"
                     android:background="@drawable/bg"
                     android:fontFamily="serif-monospace" />
             </TableRow>
@@ -285,6 +281,7 @@
                     android:id="@+id/center_color"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="#929292"
                     android:background="@drawable/bg"
                     android:fontFamily="serif-monospace" />
             </TableRow>
@@ -306,6 +303,7 @@
                     android:id="@+id/end_color"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="#00888f"
                     android:background="@drawable/bg"
                     android:fontFamily="serif-monospace" />
             </TableRow>
