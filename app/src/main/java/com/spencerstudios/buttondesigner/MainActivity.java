@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback;
 
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import static android.view.View.GONE;
@@ -78,9 +79,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         findViews();
 
-
-
         shape = new GradientDrawable();
+
+        shape.setShape(GradientDrawable.RECTANGLE);
 
         rowType = (TableRow) findViewById(R.id.row_type);
         rowCX = (TableRow) findViewById(R.id.row_center_x);
@@ -107,12 +108,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         tvLinear.setOnClickListener(this);
         tvRadial.setOnClickListener(this);
-
         tvVert.setOnClickListener(this);
         tvHor.setOnClickListener(this);
 
-        if (vertical) setBackground(tvVert, tvHor);
-        else setBackground(tvHor, tvVert);
+        if (vertical) setBackground(tvVert, tvHor);else setBackground(tvHor, tvVert);
 
         cbCenterColor.setChecked(hasCenterColor);
 
@@ -132,9 +131,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             }
         });
 
-
         cp = new ColorPicker(MainActivity.this, 0, 0, 0);
-
         cp.setCallback(new ColorPickerCallback() {
             @Override
             public void onColorChosen(@ColorInt int color) {
@@ -172,7 +169,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             }
         });
 
-
         startColor = (Button) findViewById(R.id.start_color);
         centerColor = (Button) findViewById(R.id.center_color);
         endColor = (Button) findViewById(R.id.end_color);
@@ -185,86 +181,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         etCy.addTextChangedListener(this);
         etRad.addTextChangedListener(this);
 
-        //genXml = (Button) findViewById(R.id.btn_xml);
-
-        //genXml.setOnClickListener(this);
-
-
         startColor.setOnClickListener(this);
         centerColor.setOnClickListener(this);
         endColor.setOnClickListener(this);
 
         displayMechanics();
 
-        //applyButtonProperties();
-
         applySettings();
-    }
-
-    private void applyButtonProperties() {
-
-        shape.setShape(GradientDrawable.RECTANGLE);
-
-        if (useGradient && !linearSelected) {
-
-            shape.setGradientType(GradientDrawable.RADIAL_GRADIENT);
-
-            //shape.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
-
-            //float x = Float.parseFloat("0.".concat(etCx.getText().toString()));
-            //float y = Float.parseFloat("0.".concat(etCy.getText().toString()));
-
-            shape.setGradientCenter(.1f, 0.30f);
-
-            //int r = Integer.parseInt(etRad.getText().toString());
-            shape.setGradientRadius(convertDpToPx(50));
-
-            String c1, c2 = null, c3;
-
-            c1 = startColor.getText().toString();
-            if (hasCenterColor) c2 = centerColor.getText().toString();
-            c3 = endColor.getText().toString();
-
-            if (hasCenterColor) {
-                int[] c = {Color.parseColor("#000000"), Color.parseColor("#ffffff"), Color.parseColor("#000000")};
-                shape.setColors(c);
-            } else {
-                int[] c = {Color.parseColor("#000000"), Color.parseColor("#ffffff")};
-                shape.setColors(c);
-            }
-        }
-        //shape.setOrientation(ORIENTATION[0]);
-
-        shape.setSize(convertDpToPx(270), convertDpToPx(60));
-
-        //shape.setOrientation(GradientDrawable.Orientation.RIGHT_LEFT);
-
-        try {
-            shape.setCornerRadii(new float[]{
-                    convertDpToPx(14), //top left
-                    convertDpToPx(14), //top left
-                    convertDpToPx(14), //top right
-                    convertDpToPx(14), //top right
-                    convertDpToPx(14), //bottom lef
-                    convertDpToPx(14), //bottom left
-                    convertDpToPx(14), //bottom right
-                    convertDpToPx(14)  //bottom right
-            });
-
-            shape.setStroke(convertDpToPx(3), Color.parseColor("#929292"));
-
-            //shape.setColor(Color.parseColor(startColor.getText().toString()));
-
-            //shape.setGradientCenter(0.10f, 0.50f);
-            //shape.setGradientRadius(convertDpToPx(100));
-
-            //twoColorsSelected = true;
-
-            preview.setBackgroundDrawable(shape);
-
-        } catch (IllegalArgumentException e) {
-            Toast.makeText(getApplicationContext(), "Illegal args", Toast.LENGTH_LONG).show();
-        }
     }
 
     @Override
@@ -301,11 +224,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             linearSelected = true;
             setBackground(tvLinear, tvRadial);
             displayMechanics();
+            applySettings();
         }
         if (v == tvRadial) {
             linearSelected = false;
             setBackground(tvRadial, tvLinear);
             displayMechanics();
+            applySettings();
         }
 
         if (v == tvHor) {
@@ -414,26 +339,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     private void applySettings() {
 
-        shape  = new GradientDrawable();
-        if (useGradient) {
+        shape = new GradientDrawable();
 
-            c1 = startColor.getText().toString();
-            c2 = centerColor.getText().toString();
-            c3 = endColor.getText().toString();
-
-            if (hasCenterColor) {
-                int[] c = {Color.parseColor(c1), Color.parseColor(c2), Color.parseColor(c3)};
-                shape.setColors(c);
-            } else {
-                int[] c = {Color.parseColor(c1), Color.parseColor(c3)};
-                shape.setColors(c);
-            }
-        }else {
-            c1 = startColor.getText().toString();
-            shape.setColor(Color.parseColor(c1));
-        }
-
-        if (!linearSelected) {
+        if (useGradient && !linearSelected) {
 
             shape.setGradientType(GradientDrawable.RADIAL_GRADIENT);
 
@@ -448,7 +356,31 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
             shape.setGradientCenter(fx, fy);
             shape.setGradientRadius(convertDpToPx(ir));
+
+            setButtonColors();
+
+        } else if (useGradient && linearSelected) {
+            shape.setGradientType(GradientDrawable.LINEAR_GRADIENT);
+            shape.setOrientation(GradientDrawable.Orientation.TL_BR);
+            setButtonColors();
+
+        }else if (!useGradient){
+            c1 = startColor.getText().toString();
+            shape.setColor(Color.parseColor(c1));
         }
+
+        shape.setCornerRadii(new float[]{
+                convertDpToPx(14), //top left
+                convertDpToPx(14), //top left
+                convertDpToPx(14), //top right
+                convertDpToPx(14), //top right
+                convertDpToPx(14), //bottom lef
+                convertDpToPx(14), //bottom left
+                convertDpToPx(14), //bottom right
+                convertDpToPx(14)  //bottom right
+        });
+
+        shape.setStroke(convertDpToPx(3), Color.parseColor("#929292"));
 
         preview.setBackgroundDrawable(shape);
     }
@@ -474,6 +406,22 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     @Override
     public void afterTextChanged(Editable s) {
+
+    }
+
+    private void setButtonColors(){
+
+        c1 = startColor.getText().toString();
+        c2 = centerColor.getText().toString();
+        c3 = endColor.getText().toString();
+
+        if (hasCenterColor) {
+            int[] c = {Color.parseColor(c1), Color.parseColor(c2), Color.parseColor(c3)};
+            shape.setColors(c);
+        } else {
+            int[] c = {Color.parseColor(c1), Color.parseColor(c3)};
+            shape.setColors(c);
+        }
 
     }
 }
