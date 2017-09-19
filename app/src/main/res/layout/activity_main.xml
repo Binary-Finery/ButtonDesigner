@@ -4,32 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
+    android:background="#323232"
     android:orientation="vertical"
+    android:weightSum="2"
     tools:context="com.spencerstudios.buttondesigner.MainActivity">
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.8"
+        android:background="#ffffff"
+        android:gravity="center"
         android:orientation="vertical">
 
         <Button
             android:id="@+id/btn_preview"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
-            android:text="test"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:text="Test"
             android:textAllCaps="false"
             android:textColor="#ffffff"
             android:textSize="20dp" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.2"
+        android:orientation="vertical">
+
         <View
             android:layout_width="match_parent"
-            android:layout_marginTop="16dp"
             android:layout_height="1px"
-            android:background="#424242"/>
+            android:background="#424242" />
 
 
         <HorizontalScrollView
@@ -110,63 +119,51 @@
 
             <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#f5f5f5"
+                android:layout_height="match_parent"
+                android:background="#323232"
                 android:padding="10dp">
+
 
                 <TableRow
                     android:id="@+id/row_color_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <TextView
+                    <Switch
+                        android:id="@+id/switch_gradient"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Gradient: " />
+                        android:text="Gradient  "
+                        android:textColor="#e91e63"
+                        android:textStyle="bold" />
 
-                    <CheckBox
-                        android:id="@+id/cb_gradient"
+                    <Switch
+                        android:id="@+id/switch_type"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:text="\tRadial  "
+                        android:textColor="#e91e63"
+                        android:textStyle="bold" />
                 </TableRow>
 
-
                 <TableRow
-                    android:id="@+id/row_type"
+                    android:id="@+id/row_fabs"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp">
+                    android:layout_height="wrap_content">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:text="Type: " />
+                   <android.support.design.widget.FloatingActionButton
+                       app:fabSize="mini"
+                       app:backgroundTint="#00888f"/>
 
-                    <TextView
-                        android:id="@+id/tv_linear"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_selected"
-                        android:gravity="center"
-                        android:paddingBottom="8dp"
-                        android:paddingEnd="2dp"
-                        android:paddingStart="2dp"
-                        android:paddingTop="8dp"
-                        android:text="Linear" />
+                    <android.support.design.widget.FloatingActionButton
+                        app:fabSize="mini"
+                        app:backgroundTint="#ee434f"
+                        android:layout_marginStart="24dp"/>
 
-                    <TextView
-                        android:id="@+id/tv_rad"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:background="@drawable/bg"
-                        android:gravity="center"
-                        android:paddingBottom="8dp"
-                        android:paddingEnd="2dp"
-                        android:paddingStart="2dp"
-                        android:paddingTop="8dp"
-                        android:text="Radial" />
+                    <android.support.design.widget.FloatingActionButton
+                        app:fabSize="mini"
+                        app:backgroundTint="#00444d"
+                        android:layout_marginStart="24dp"/>
                 </TableRow>
 
                 <TableRow
@@ -178,7 +175,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:text="Center X: " />
+                        android:text="Center X: "
+                        android:textColor="#e91e63"
+                        android:textStyle="bold" />
 
                     <EditText
                         android:id="@+id/et_cx"
@@ -205,7 +204,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:text="Center Y: " />
+                        android:text="Center Y: "
+                        android:textColor="#e91e63"
+                        android:textStyle="bold" />
 
                     <EditText
                         android:id="@+id/et_cy"
@@ -234,7 +235,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:text="Radius: " />
+                        android:text="Radius: "
+                        android:textColor="#e91e63"
+                        android:textStyle="bold" />
 
                     <EditText
                         android:id="@+id/et_rad"
@@ -262,7 +265,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:text="Orientation: " />
+                        android:text="Orientation: "
+                        android:textColor="#e91e63"
+                        android:textStyle="bold" />
 
                     <Spinner
                         android:id="@+id/spinner_angle"
@@ -279,7 +284,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Center Color: " />
+                        android:text="Center Color: "
+                        android:textColor="#e91e63"
+                        android:textStyle="bold" />
 
                     <CheckBox
                         android:id="@+id/cb_include_center"

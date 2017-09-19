@@ -17,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,7 +43,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     private int select = 1;
     private TableRow rowOrien, rowCen, rowEnd, rowType, rowCX, rowCY, rowIncludeCenterColor, rowRadius;
-    private CheckBox cbGradient, cbCenterColor;
+    private CheckBox cbCenterColor;
+    private Switch switchGradient, switchRadial;
     private ColorPicker cp;
 
 
@@ -108,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         angleSpinner = (Spinner) findViewById(R.id.spinner_angle);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, angleList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, angleList);
 
         angleSpinner.setAdapter(adapter);
 
@@ -129,7 +131,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         shape.setShape(GradientDrawable.RECTANGLE);
 
-        rowType = (TableRow) findViewById(R.id.row_type);
         rowCX = (TableRow) findViewById(R.id.row_center_x);
         rowCY = (TableRow) findViewById(R.id.row_center_y);
         rowCen = (TableRow) findViewById(R.id.row_centre_color);
@@ -139,21 +140,17 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         rowRadius = (TableRow) findViewById(R.id.row_radius);
 
         preview = (Button) findViewById(R.id.btn_preview);
-        tvLinear = (TextView) findViewById(R.id.tv_linear);
-        tvRadial = (TextView) findViewById(R.id.tv_rad);
-
         etCx = (EditText) findViewById(R.id.et_cx);
         etCy = (EditText) findViewById(R.id.et_cy);
         etRad = (EditText) findViewById(R.id.et_rad);
 
         cbCenterColor = (CheckBox) findViewById(R.id.cb_include_center);
-        cbGradient = (CheckBox) findViewById(R.id.cb_gradient);
+        switchGradient = (Switch) findViewById(R.id.switch_gradient);
+        switchRadial = (Switch)findViewById(R.id.switch_type) ;
+
 
         tvHor = (TextView) findViewById(R.id.tv_horizontal);
         tvVert = (TextView) findViewById(R.id.tv_vertical);
-
-        tvLinear.setOnClickListener(this);
-        tvRadial.setOnClickListener(this);
 
         cbCenterColor.setChecked(hasCenterColor);
 
@@ -200,12 +197,21 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             }
         });
 
-        cbGradient.setChecked(useGradient);
+        switchGradient.setChecked(useGradient);
 
-        cbGradient.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        switchGradient.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 useGradient = isChecked;
+                displayMechanics();
+                applySettings();
+            }
+        });
+
+        switchRadial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                linearSelected = isChecked;
                 displayMechanics();
                 applySettings();
             }
@@ -271,8 +277,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         if (v == tvRadial) {
             linearSelected = false;
             setBackground(tvRadial, tvLinear);
-            displayMechanics();
-            applySettings();
+
         }
 
         if (v == tvHor) {
@@ -369,7 +374,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     private void displayMechanics() {
         if (useGradient) {
 
-            vis(rowType, 1);
             vis(rowIncludeCenterColor, 1);
             vis(rowRadius, 1);
 
@@ -393,7 +397,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 vis(rowEnd, 1);
             }
         } else {
-            vis(rowType, 0);
             vis(rowOrien, 0);
             vis(rowCX, 0);
             vis(rowCY, 0);
