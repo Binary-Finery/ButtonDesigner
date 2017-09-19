@@ -10,6 +10,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -53,12 +56,17 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     private final GradientDrawable.Orientation[] ORIENTATION = {
             GradientDrawable.Orientation.LEFT_RIGHT,
+            GradientDrawable.Orientation.BL_TR,
+            GradientDrawable.Orientation.BOTTOM_TOP,
+            GradientDrawable.Orientation.BR_TL,
+            GradientDrawable.Orientation.RIGHT_LEFT,
+            GradientDrawable.Orientation.TR_BL,
             GradientDrawable.Orientation.TOP_BOTTOM
     };
 
     private Spinner angleSpinner;
 
-    boolean useGradient = true;
+    private boolean useGradient = true;
     boolean linearSelected = true;
     boolean hasCenterColor = true;
     boolean vertical = false;
@@ -69,6 +77,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     private String c1, c2, c3;
 
+    private ArrayList<String> angleList;
+
+    private int angleSelected = 1, tabSelected = 0;
+
+    private int [] tabIDs = {R.id.tab1, R.id.tab2, R.id.tab3, R.id.tab4, R.id.tab5};
+    private Button [] tabs = new Button[tabIDs.length];
+
     Button preview;
 
     @Override
@@ -77,6 +92,38 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         setContentView(R.layout.activity_main);
 
         findViews();
+
+        angleList = new ArrayList<>();
+
+        for (int i = 0 ; i < tabs.length ; i++){
+            tabs[i] = (Button)findViewById(tabIDs[i]);
+            tabs[i].setOnClickListener(this);
+        }
+
+        int x = 0;
+        for (int i = 0; i < 7; i++) {
+            angleList.add(x + " degrees");
+            x += 45;
+        }
+
+        angleSpinner = (Spinner) findViewById(R.id.spinner_angle);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, angleList);
+
+        angleSpinner.setAdapter(adapter);
+
+        angleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                angleSelected = position;
+                applySettings();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
 
         shape = new GradientDrawable();
 
@@ -107,10 +154,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         tvLinear.setOnClickListener(this);
         tvRadial.setOnClickListener(this);
-        tvVert.setOnClickListener(this);
-        tvHor.setOnClickListener(this);
-
-        if (vertical) setBackground(tvVert, tvHor);else setBackground(tvHor, tvVert);
 
         cbCenterColor.setChecked(hasCenterColor);
 
@@ -240,7 +283,38 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             setBackground(tvVert, tvHor);
             vertical = true;
         }
+        if (v==tabs[0]){
+            tabs[0].setBackgroundResource(R.drawable.new_select);
+            tabs[0].setTextColor(Color.RED);
+            setTabs(1,2,3,4);
+        }
+        if (v==tabs[1]){
+            tabs[1].setBackgroundResource(R.drawable.new_select);
+            tabs[1].setTextColor(Color.RED);
+            setTabs(0,2,3,4);
+        }
+        if (v==tabs[2]){
+            tabs[2].setBackgroundResource(R.drawable.new_select);
+            tabs[2].setTextColor(Color.RED);
+            setTabs(0,1,3,4);
+        }
+        if (v==tabs[3]){
+            tabs[3].setBackgroundResource(R.drawable.new_select);
+            tabs[3].setTextColor(Color.RED);
+            setTabs(0,1,2,4);
+        }
+        if (v==tabs[4]){
+            tabs[4].setBackgroundResource(R.drawable.new_select);
+            tabs[4].setTextColor(Color.RED);
+            setTabs(0,1,2,3);
+        }
+    }
 
+    private void setTabs(int... i){
+        for (int x : i){
+            tabs[x].setBackgroundColor(Color.WHITE);
+            tabs[x].setTextColor(Color.BLACK);
+        }
     }
 
 
@@ -360,10 +434,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         } else if (useGradient && linearSelected) {
             shape.setGradientType(GradientDrawable.LINEAR_GRADIENT);
-            shape.setOrientation(GradientDrawable.Orientation.TL_BR);
+            shape.setOrientation(ORIENTATION[angleSelected]);
             setButtonColors();
 
-        }else if (!useGradient){
+        } else if (!useGradient) {
             c1 = startColor.getText().toString();
             shape.setColor(Color.parseColor(c1));
         }
@@ -408,7 +482,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     }
 
-    private void setButtonColors(){
+    private void setButtonColors() {
 
         c1 = startColor.getText().toString();
         c2 = centerColor.getText().toString();
