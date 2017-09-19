@@ -147,26 +147,6 @@
                 </TableRow>
 
                 <TableRow
-                    android:id="@+id/row_fabs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                   <android.support.design.widget.FloatingActionButton
-                       app:fabSize="mini"
-                       app:backgroundTint="#00888f"/>
-
-                    <android.support.design.widget.FloatingActionButton
-                        app:fabSize="mini"
-                        app:backgroundTint="#ee434f"
-                        android:layout_marginStart="24dp"/>
-
-                    <android.support.design.widget.FloatingActionButton
-                        app:fabSize="mini"
-                        app:backgroundTint="#00444d"
-                        android:layout_marginStart="24dp"/>
-                </TableRow>
-
-                <TableRow
                     android:id="@+id/row_center_x"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
@@ -294,10 +274,32 @@
                         android:layout_height="wrap_content" />
                 </TableRow>
 
+                <TableRow
+                    android:id="@+id/row_fabs"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.FloatingActionButton
+                        app:fabSize="mini"
+                        app:backgroundTint="#00888f"/>
+
+                    <android.support.design.widget.FloatingActionButton
+                        app:fabSize="mini"
+                        app:backgroundTint="#ee434f"
+                        android:layout_marginStart="24dp"/>
+
+                    <android.support.design.widget.FloatingActionButton
+                        app:fabSize="mini"
+                        app:backgroundTint="#00444d"
+                        android:layout_marginStart="24dp"/>
+                </TableRow>
+
 
                 <TableRow
                     android:id="@+id/row_start_color"
                     android:layout_width="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:layout_height="wrap_content">
 
                     <TextView
