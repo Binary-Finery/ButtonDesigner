@@ -1,10 +1,11 @@
 package com.spencerstudios.buttondesigner;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
-import android.support.annotation.FloatRange;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,13 +21,11 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import static android.view.View.GONE;
@@ -35,14 +34,10 @@ import static android.view.View.VISIBLE;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener, TextWatcher {
 
-    private Button btnPreview;
-    private Button startColor, centerColor, endColor, borderColor, genXml;
-    private TextView tvSolid, tvGrad, tvLinear, tvRadial, tvHor, tvVert;
-
     private DisplayMetrics displayMetrics;
 
-    private int select = 1;
-    private TableRow rowOrien, rowCen, rowEnd, rowType, rowCX, rowCY, rowIncludeCenterColor, rowRadius;
+    private int select = 0;
+    private TableRow rowOrien, rowCX, rowCY, rowIncludeCenterColor, rowRadius;
     private CheckBox cbCenterColor;
     private Switch switchGradient, switchRadial;
     private ColorPicker cp;
@@ -50,43 +45,30 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     private boolean twoColorsSelected = false, singleColor = false, triColors = false, hasBorder = true, isVertical = false;
 
-    private boolean solidColor = false;
-
     private List<String> dpList;
 
     private CheckBox cbBorder;
 
-    private final GradientDrawable.Orientation[] ORIENTATION = {
-            GradientDrawable.Orientation.LEFT_RIGHT,
-            GradientDrawable.Orientation.BL_TR,
-            GradientDrawable.Orientation.BOTTOM_TOP,
-            GradientDrawable.Orientation.BR_TL,
-            GradientDrawable.Orientation.RIGHT_LEFT,
-            GradientDrawable.Orientation.TR_BL,
-            GradientDrawable.Orientation.TOP_BOTTOM
-    };
+    private final GradientDrawable.Orientation[] ORIENTATION = {GradientDrawable.Orientation.LEFT_RIGHT, GradientDrawable.Orientation.BL_TR, GradientDrawable.Orientation.BOTTOM_TOP, GradientDrawable.Orientation.BR_TL, GradientDrawable.Orientation.RIGHT_LEFT, GradientDrawable.Orientation.TR_BL, GradientDrawable.Orientation.TOP_BOTTOM};
 
     private Spinner angleSpinner;
 
-    private boolean useGradient = true;
-    boolean linearSelected = true;
-    boolean hasCenterColor = true;
-    boolean vertical = false;
+    private boolean useGradient = true, linearSelected = true, hasCenterColor = true;
 
     private EditText etCx, etCy, etRad;
 
     private GradientDrawable shape;
 
-    private String c1, c2, c3;
-
     private ArrayList<String> angleList;
 
-    private int angleSelected = 1, tabSelected = 0;
+    private int angleSelected = 1;
 
-    private int [] tabIDs = {R.id.tab1, R.id.tab2, R.id.tab3, R.id.tab4, R.id.tab5};
-    private Button [] tabs = new Button[tabIDs.length];
+    private int[] tabIDs = {R.id.tab1, R.id.tab2, R.id.tab3, R.id.tab4, R.id.tab5}, fabIDs = {R.id.f1, R.id.f2, R.id.f3};
+    private Button[] tabs = new Button[tabIDs.length];
 
-    Button preview;
+    private Button preview;
+    private FloatingActionButton[] fabs = new FloatingActionButton[fabIDs.length];
+    private String[] fc = {"#F44336", "#4CAF50", "#3F51B5"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,11 +79,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         angleList = new ArrayList<>();
 
-        for (int i = 0 ; i < tabs.length ; i++){
-            tabs[i] = (Button)findViewById(tabIDs[i]);
+        for (int i = 0; i < tabs.length; i++) {
+            tabs[i] = (Button) findViewById(tabIDs[i]);
             tabs[i].setOnClickListener(this);
         }
-
+        for (int i = 0; i < fabs.length; i++) {
+            fabs[i] = (FloatingActionButton) findViewById(fabIDs[i]);
+            fabs[i].setOnClickListener(this);
+            fabs[i].setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(fc[i])));
+        }
         int x = 0;
         for (int i = 0; i < 7; i++) {
             angleList.add(x + " degrees");
@@ -109,11 +95,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         }
 
         angleSpinner = (Spinner) findViewById(R.id.spinner_angle);
-
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, angleList);
-
         angleSpinner.setAdapter(adapter);
-
         angleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -133,8 +116,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         rowCX = (TableRow) findViewById(R.id.row_center_x);
         rowCY = (TableRow) findViewById(R.id.row_center_y);
-        rowCen = (TableRow) findViewById(R.id.row_centre_color);
-        rowEnd = (TableRow) findViewById(R.id.row_end_color);
         rowOrien = (TableRow) findViewById(R.id.row_orientation);
         rowIncludeCenterColor = (TableRow) findViewById(R.id.row_include_center);
         rowRadius = (TableRow) findViewById(R.id.row_radius);
@@ -146,26 +127,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         cbCenterColor = (CheckBox) findViewById(R.id.cb_include_center);
         switchGradient = (Switch) findViewById(R.id.switch_gradient);
-        switchRadial = (Switch)findViewById(R.id.switch_type) ;
-
-
-        tvHor = (TextView) findViewById(R.id.tv_horizontal);
-        tvVert = (TextView) findViewById(R.id.tv_vertical);
-
+        switchRadial = (Switch) findViewById(R.id.switch_type);
         cbCenterColor.setChecked(hasCenterColor);
 
         cbCenterColor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 hasCenterColor = isChecked;
-                if (useGradient) {
-                    if (isChecked) {
-                        vis(rowCen, 1);
-                        vis(rowEnd, 1);
-                    } else {
-                        vis(rowCen, 0);
-                    }
-                }
+                if (useGradient) fabs[2].setVisibility(isChecked ? View.VISIBLE : View.GONE);
                 applySettings();
             }
         });
@@ -175,24 +144,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             @Override
             public void onColorChosen(@ColorInt int color) {
                 String s = String.format("#%06X", (0xFFFFFF & color));
-
-                switch (select) {
-                    case 1:
-                        startColor.setBackgroundColor(Color.parseColor(s));
-                        startColor.setText(s);
-                        break;
-                    case 2:
-                        centerColor.setBackgroundColor(Color.parseColor(s));
-                        centerColor.setText(s);
-                        break;
-                    case 3:
-                        endColor.setBackgroundColor(Color.parseColor(s));
-                        endColor.setText(s);
-                        break;
-                    case 4:
-                        borderColor.setBackgroundColor(Color.parseColor(s));
-                        borderColor.setText(s);
-                }
+                fabs[select].setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(s)));
+                fc[select] = s;
+                applySettings();
                 cp.dismiss();
             }
         });
@@ -217,21 +171,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             }
         });
 
-        startColor = (Button) findViewById(R.id.start_color);
-        centerColor = (Button) findViewById(R.id.center_color);
-        endColor = (Button) findViewById(R.id.end_color);
-
-        startColor.addTextChangedListener(this);
-        centerColor.addTextChangedListener(this);
-        endColor.addTextChangedListener(this);
-
         etCx.addTextChangedListener(this);
         etCy.addTextChangedListener(this);
         etRad.addTextChangedListener(this);
-
-        startColor.setOnClickListener(this);
-        centerColor.setOnClickListener(this);
-        endColor.setOnClickListener(this);
 
         displayMechanics();
 
@@ -241,82 +183,48 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     @Override
     public void onClick(View v) {
 
-        if (v == startColor) {
+        if (v == tabs[0]) {
+            tabs[0].setBackgroundResource(R.drawable.new_select);
+            tabs[0].setTextColor(Color.RED);
+            setTabs(1, 2, 3, 4);
+        }
+        if (v == tabs[1]) {
+            tabs[1].setBackgroundResource(R.drawable.new_select);
+            tabs[1].setTextColor(Color.RED);
+            setTabs(0, 2, 3, 4);
+        }
+        if (v == tabs[2]) {
+            tabs[2].setBackgroundResource(R.drawable.new_select);
+            tabs[2].setTextColor(Color.RED);
+            setTabs(0, 1, 3, 4);
+        }
+        if (v == tabs[3]) {
+            tabs[3].setBackgroundResource(R.drawable.new_select);
+            tabs[3].setTextColor(Color.RED);
+            setTabs(0, 1, 2, 4);
+        }
+        if (v == tabs[4]) {
+            tabs[4].setBackgroundResource(R.drawable.new_select);
+            tabs[4].setTextColor(Color.RED);
+            setTabs(0, 1, 2, 3);
+        }
+
+        if (v == fabs[0]) {
+            select = 0;
+            cp.show();
+        }
+        if (v == fabs[1]) {
             select = 1;
             cp.show();
         }
-        if (v == centerColor) {
+        if (v == fabs[2]) {
             select = 2;
             cp.show();
         }
-        if (v == endColor) {
-            select = 3;
-            cp.show();
-        }
-        if (v == borderColor) {
-            select = 4;
-            cp.show();
-        }
-        if (v == genXml) {
-            constructXml();
-        }
-        if (v == tvSolid) {
-            solidColor = true;
-            setBackground(tvSolid, tvGrad);
-        }
-        if (v == tvGrad) {
-            solidColor = false;
-            setBackground(tvGrad, tvSolid);
-        }
-        if (v == tvLinear) {
-            linearSelected = true;
-            setBackground(tvLinear, tvRadial);
-            displayMechanics();
-            applySettings();
-        }
-        if (v == tvRadial) {
-            linearSelected = false;
-            setBackground(tvRadial, tvLinear);
-
-        }
-
-        if (v == tvHor) {
-            setBackground(tvHor, tvVert);
-            vertical = false;
-        }
-        if (v == tvVert) {
-            setBackground(tvVert, tvHor);
-            vertical = true;
-        }
-        if (v==tabs[0]){
-            tabs[0].setBackgroundResource(R.drawable.new_select);
-            tabs[0].setTextColor(Color.RED);
-            setTabs(1,2,3,4);
-        }
-        if (v==tabs[1]){
-            tabs[1].setBackgroundResource(R.drawable.new_select);
-            tabs[1].setTextColor(Color.RED);
-            setTabs(0,2,3,4);
-        }
-        if (v==tabs[2]){
-            tabs[2].setBackgroundResource(R.drawable.new_select);
-            tabs[2].setTextColor(Color.RED);
-            setTabs(0,1,3,4);
-        }
-        if (v==tabs[3]){
-            tabs[3].setBackgroundResource(R.drawable.new_select);
-            tabs[3].setTextColor(Color.RED);
-            setTabs(0,1,2,4);
-        }
-        if (v==tabs[4]){
-            tabs[4].setBackgroundResource(R.drawable.new_select);
-            tabs[4].setTextColor(Color.RED);
-            setTabs(0,1,2,3);
-        }
     }
 
-    private void setTabs(int... i){
-        for (int x : i){
+    private void setTabs(int... i) {
+        for (int x : i) {
             tabs[x].setBackgroundColor(Color.WHITE);
             tabs[x].setTextColor(Color.BLACK);
         }
@@ -333,27 +241,20 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         builder.append(Xml.header.concat("\n"));
         if (singleColor) {
-            String c = q + startColor.getText().toString() + q;
-            builder.append(Xml.solidColor.concat(c).concat(Xml.closing_tag));
+
+            //builder.append(Xml.solidColor.concat(c).concat(Xml.closing_tag));
         } else {
             builder.append(Xml.gradientHead);
             if (twoColorsSelected) {
-                String s = q + startColor.getText().toString() + q;
-                String e = q + endColor.getText().toString() + q;
-                builder.append("\n".concat(Xml.startColor.concat(s).concat("\n").concat(Xml.endColor).concat(e)));
+
+                //builder.append("\n".concat(Xml.startColor.concat(s).concat("\n").concat(Xml.endColor).concat(e)));
             } else {
-                String s = q + startColor.getText().toString() + q;
-                String c = q + centerColor.getText().toString() + q;
-                String e = q + endColor.getText().toString() + q;
-                builder.append("\n".concat(Xml.startColor.concat(s).concat("\n").concat(Xml.centerColor.concat(c).concat("\n").concat(Xml.endColor.concat(e)))));
+                //builder.append("\n".concat(Xml.startColor.concat(s).concat("\n").concat(Xml.centerColor.concat(c).concat("\n").concat(Xml.endColor.concat(e)))));
             }
 
         }
 
         if (hasBorder) {
-            String bc = q + borderColor.getText().toString() + q;
-
-            //builder.append(Xml.stroke.concat(Xml.strokeColor.concat(bc).concat(Xml.strokeWidth.concat(bw).concat(Xml.closing_tag))));
         }
 
         builder.append(Xml.final_closing_tag);
@@ -388,20 +289,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 vis(rowOrien, 0);
                 vis(rowRadius, 1);
             }
-
-            if (hasCenterColor) {
-                vis(rowCen, 1);
-                vis(rowEnd, 1);
-            } else {
-                vis(rowCen, 0);
-                vis(rowEnd, 1);
-            }
         } else {
             vis(rowOrien, 0);
             vis(rowCX, 0);
             vis(rowCY, 0);
-            vis(rowCen, 0);
-            vis(rowEnd, 0);
             vis(rowIncludeCenterColor, 0);
             vis(rowRadius, 0);
         }
@@ -441,8 +332,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             setButtonColors();
 
         } else if (!useGradient) {
-            c1 = startColor.getText().toString();
-            shape.setColor(Color.parseColor(c1));
+            shape.setColor(Color.parseColor(fc[0]));
         }
 
         shape.setCornerRadii(new float[]{
@@ -466,10 +356,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         return (int) ((dp * displayMetrics.density) + .5);
     }
 
-    private int toInt(EditText et) {
-        return Integer.parseInt(et.getText().toString());
-    }
-
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -487,15 +373,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     private void setButtonColors() {
 
-        c1 = startColor.getText().toString();
-        c2 = centerColor.getText().toString();
-        c3 = endColor.getText().toString();
-
         if (hasCenterColor) {
-            int[] c = {Color.parseColor(c1), Color.parseColor(c2), Color.parseColor(c3)};
+            int[] c = {Color.parseColor(fc[0]), Color.parseColor(fc[1]), Color.parseColor(fc[2])};
             shape.setColors(c);
         } else {
-            int[] c = {Color.parseColor(c1), Color.parseColor(c3)};
+            int[] c = {Color.parseColor(fc[0]), Color.parseColor(fc[1])};
             shape.setColors(c);
         }
 
