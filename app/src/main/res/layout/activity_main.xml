@@ -62,7 +62,7 @@
                     android:paddingEnd="5dp"
                     android:paddingStart="5dp"
                     android:text="Color"
-                    android:textAllCaps="false" />
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/tab2"
@@ -73,29 +73,29 @@
                     android:paddingEnd="5dp"
                     android:paddingStart="5dp"
                     android:text="Border"
-                    android:textAllCaps="false" />
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/tab3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg"
-                    android:capitalize="none"
+                    android:capitalize="words"
                     android:paddingEnd="5dp"
                     android:paddingStart="5dp"
                     android:text="Corners"
-                    android:textAllCaps="false" />
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/tab4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg"
-                    android:capitalize="none"
+                    android:capitalize="words"
                     android:paddingEnd="5dp"
                     android:paddingStart="5dp"
                     android:text="Size"
-                    android:textAllCaps="false" />
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/tab5"
@@ -106,7 +106,7 @@
                     android:paddingEnd="5dp"
                     android:paddingStart="5dp"
                     android:text="Generate XML"
-                    android:textAllCaps="false" />
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -121,6 +121,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#323232"
+                android:layout_marginTop="16dp"
                 android:padding="10dp">
 
 
@@ -148,6 +149,7 @@
 
                 <TableRow
                     android:id="@+id/row_center_x"
+                    android:layout_marginTop="16dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
@@ -177,6 +179,7 @@
 
                 <TableRow
                     android:id="@+id/row_center_y"
+                    android:layout_marginTop="16dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
@@ -208,6 +211,7 @@
 
                 <TableRow
                     android:id="@+id/row_radius"
+                    android:layout_marginTop="16dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
@@ -278,6 +282,7 @@
                     android:id="@+id/row_fabs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
                     android:layout_marginTop="8dp">
 
                     <android.support.design.widget.FloatingActionButton

@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         }
         if (v == tabs[4]) {
             tabs[4].setBackgroundResource(R.drawable.new_select);
-            tabs[4].setTextColor(Color.RED);
+            tabs[4].setTextColor(Color.parseColor("#E91E63"));
             setTabs(0, 1, 2, 3);
         }
 
@@ -228,48 +228,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             tabs[x].setBackgroundColor(Color.WHITE);
             tabs[x].setTextColor(Color.BLACK);
         }
-    }
-
-
-    private void findViews() {
-    }
-
-    private void constructXml() {
-
-        char q = '"';
-        StringBuilder builder = new StringBuilder();
-
-        builder.append(Xml.header.concat("\n"));
-        if (singleColor) {
-
-            //builder.append(Xml.solidColor.concat(c).concat(Xml.closing_tag));
-        } else {
-            builder.append(Xml.gradientHead);
-            if (twoColorsSelected) {
-
-                //builder.append("\n".concat(Xml.startColor.concat(s).concat("\n").concat(Xml.endColor).concat(e)));
-            } else {
-                //builder.append("\n".concat(Xml.startColor.concat(s).concat("\n").concat(Xml.centerColor.concat(c).concat("\n").concat(Xml.endColor.concat(e)))));
-            }
-
-        }
-
-        if (hasBorder) {
-        }
-
-        builder.append(Xml.final_closing_tag);
-
-        //Intent intent = new Intent(MainActivity.this, GenerateDrawableXMLActivity.class);
-        //intent.putExtra("xml", builder.toString());
-        //startActivity(intent);
-    }
-
-    private void setBackground(TextView textView, TextView textView2) {
-
-        textView.setBackgroundResource(R.drawable.bg_selected);
-        textView2.setBackgroundResource(R.drawable.bg);
-        textView.setTextColor(Color.WHITE);
-        textView2.setTextColor(Color.LTGRAY);
     }
 
     private void displayMechanics() {
@@ -296,7 +254,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             vis(rowIncludeCenterColor, 0);
             vis(rowRadius, 0);
         }
-
     }
 
     private void vis(TableRow tr, int v) {
@@ -357,22 +314,16 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     }
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         applySettings();
     }
-
     @Override
-    public void afterTextChanged(Editable s) {
-
-    }
+    public void afterTextChanged(Editable s) {}
 
     private void setButtonColors() {
-
         if (hasCenterColor) {
             int[] c = {Color.parseColor(fc[0]), Color.parseColor(fc[1]), Color.parseColor(fc[2])};
             shape.setColors(c);
@@ -380,8 +331,41 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             int[] c = {Color.parseColor(fc[0]), Color.parseColor(fc[1])};
             shape.setColors(c);
         }
-
     }
+
+    private void findViews() {
+    }
+
+    private void constructXml() {
+
+        char q = '"';
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(Xml.header.concat("\n"));
+        if (singleColor) {
+
+            //builder.append(Xml.solidColor.concat(c).concat(Xml.closing_tag));
+        } else {
+            builder.append(Xml.gradientHead);
+            if (twoColorsSelected) {
+
+                //builder.append("\n".concat(Xml.startColor.concat(s).concat("\n").concat(Xml.endColor).concat(e)));
+            } else {
+                //builder.append("\n".concat(Xml.startColor.concat(s).concat("\n").concat(Xml.centerColor.concat(c).concat("\n").concat(Xml.endColor.concat(e)))));
+            }
+
+        }
+
+        if (hasBorder) {
+        }
+
+        builder.append(Xml.final_closing_tag);
+
+        //Intent intent = new Intent(MainActivity.this, GenerateDrawableXMLActivity.class);
+        //intent.putExtra("xml", builder.toString());
+        //startActivity(intent);
+    }
+
 }
 
 
