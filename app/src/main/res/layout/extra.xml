@@ -7,39 +7,39 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp">
 
-        <TextView
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textColor="#000"
+           android:text="Button height: "/>
+
+        <EditText
+            android:id="@+id/et_btn_height"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="serif-monospace"
-            android:gravity="center_vertical"
-            android:text="Orientation: " />
+            android:textColor="#000"
+            android:inputType="number"
+            android:ems="3" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp">
 
         <TextView
-            android:id="@+id/tv_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_selected"
-            android:fontFamily="serif-monospace"
-            android:gravity="center"
-            android:paddingBottom="8dp"
-            android:paddingEnd="2dp"
-            android:paddingStart="2dp"
-            android:paddingTop="8dp"
-            android:text="Horizontal" />
+            android:textColor="#000"
+            android:text="Button width: "/>
 
-        <TextView
-            android:id="@+id/tv_vertical"
+        <EditText
+            android:id="@+id/et_btn_width"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:background="@drawable/bg"
-            android:fontFamily="serif-monospace"
-            android:gravity="center"
-            android:paddingBottom="8dp"
-            android:paddingEnd="2dp"
-            android:paddingStart="2dp"
-            android:paddingTop="8dp"
-            android:text="Vertical" />
+            android:textColor="#000"
+            android:inputType="number"
+            android:ems="3" />
     </TableRow>
 
 </TableLayout>

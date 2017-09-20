@@ -16,7 +16,8 @@
         android:layout_weight="0.8"
         android:background="#ffffff"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <Button
             android:id="@+id/btn_preview"
@@ -117,11 +118,18 @@
             android:layout_height="wrap_content"
             android:fillViewport="true">
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
             <TableLayout
+                android:id="@+id/table_color"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#323232"
                 android:layout_marginTop="16dp"
+                android:background="#323232"
                 android:padding="10dp">
 
 
@@ -149,9 +157,9 @@
 
                 <TableRow
                     android:id="@+id/row_center_x"
-                    android:layout_marginTop="16dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -179,9 +187,9 @@
 
                 <TableRow
                     android:id="@+id/row_center_y"
-                    android:layout_marginTop="16dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -211,9 +219,9 @@
 
                 <TableRow
                     android:id="@+id/row_radius"
-                    android:layout_marginTop="16dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -303,6 +311,62 @@
                         app:fabSize="mini" />
                 </TableRow>
             </TableLayout>
+
+
+            <!--button size table layout-->
+
+            <TableLayout
+                android:id="@+id/table_size"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:background="#323232"
+                android:padding="10dp">
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Button height: "
+                        android:textColor="#000" />
+
+                    <EditText
+                        android:id="@+id/et_btn_height"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="3"
+                        android:inputType="number"
+                        android:textColor="#000" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Button width: "
+                        android:textColor="#000" />
+
+                    <EditText
+                        android:id="@+id/et_btn_width"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="3"
+                        android:inputType="number"
+                        android:textColor="#000" />
+                </TableRow>
+
+            </TableLayout>
+
+            </LinearLayout>
+
         </ScrollView>
     </LinearLayout>
 </LinearLayout>

@@ -7,18 +7,22 @@ import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -61,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     private ArrayList<String> angleList;
 
-    private int angleSelected = 1;
+    private int angleSelected = 1, tabSelected = 0;
 
     private int[] tabIDs = {R.id.tab1, R.id.tab2, R.id.tab3, R.id.tab4, R.id.tab5}, fabIDs = {R.id.f1, R.id.f2, R.id.f3};
     private Button[] tabs = new Button[tabIDs.length];
@@ -69,6 +73,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     private Button preview;
     private FloatingActionButton[] fabs = new FloatingActionButton[fabIDs.length];
     private String[] fc = {"#F44336", "#4CAF50", "#3F51B5"};
+
+    private int [] tableIDs = {R.id.table_color, R.id.table_size};
+    private TableLayout [] tableLayouts = new TableLayout[tableIDs.length];
+
+    private EditText btnWidth, btnHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +87,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         findViews();
 
         angleList = new ArrayList<>();
+
+        for (int i = 0 ; i  <  tableLayouts.length ; i ++){
+            tableLayouts[i] = (TableLayout)findViewById(tableIDs[i]);
+        }
+
+        tableLayouts[1].setVisibility(GONE);
 
         for (int i = 0; i < tabs.length; i++) {
             tabs[i] = (Button) findViewById(tabIDs[i]);
@@ -93,6 +108,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             angleList.add(x + " degrees");
             x += 45;
         }
+        btnHeight = (EditText)findViewById(R.id.et_btn_height);
+        btnWidth = (EditText)findViewById(R.id.et_btn_width);
+
+        btnHeight.addTextChangedListener(this);
+        btnWidth.addTextChangedListener(this);
 
         angleSpinner = (Spinner) findViewById(R.id.spinner_angle);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, angleList);
@@ -176,9 +196,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         etRad.addTextChangedListener(this);
 
         displayMechanics();
-
         applySettings();
     }
+
 
     @Override
     public void onClick(View v) {
@@ -187,26 +207,35 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             tabs[0].setBackgroundResource(R.drawable.new_select);
             tabs[0].setTextColor(Color.RED);
             setTabs(1, 2, 3, 4);
+            changeTab(tabSelected, 0);
+            tabSelected  = 0;
         }
         if (v == tabs[1]) {
             tabs[1].setBackgroundResource(R.drawable.new_select);
             tabs[1].setTextColor(Color.RED);
             setTabs(0, 2, 3, 4);
+            changeTab(tabSelected, 1);
+            tabSelected = 1;
+
         }
         if (v == tabs[2]) {
             tabs[2].setBackgroundResource(R.drawable.new_select);
             tabs[2].setTextColor(Color.RED);
             setTabs(0, 1, 3, 4);
+
+            tabSelected = 2;
         }
         if (v == tabs[3]) {
             tabs[3].setBackgroundResource(R.drawable.new_select);
             tabs[3].setTextColor(Color.RED);
             setTabs(0, 1, 2, 4);
+            tabSelected = 3;
         }
         if (v == tabs[4]) {
             tabs[4].setBackgroundResource(R.drawable.new_select);
             tabs[4].setTextColor(Color.parseColor("#E91E63"));
             setTabs(0, 1, 2, 3);
+            tabSelected = 4;
         }
 
         if (v == fabs[0]) {
@@ -228,6 +257,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             tabs[x].setBackgroundColor(Color.WHITE);
             tabs[x].setTextColor(Color.BLACK);
         }
+    }
+
+    private void changeTab(int current, int next){
+        tableLayouts[current].setVisibility(GONE);
+        tableLayouts[next].setVisibility(VISIBLE);
     }
 
     private void displayMechanics() {
@@ -318,7 +352,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        applySettings();
+        if (tabSelected == 0){
+            applySettings();
+        }else if (tabSelected == 1){
+            setButtonSize();
+        }
+
     }
     @Override
     public void afterTextChanged(Editable s) {}
@@ -366,6 +405,21 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         //startActivity(intent);
     }
 
+    private void setButtonSize(){
+        String w, h;
+
+        w = btnHeight.getText().toString();
+        h = btnHeight.getText().toString();
+
+        if (w.length() < 1) w = "0";
+        if (h.length() < 1) h = "0";
+
+        int iw = Integer.parseInt(w);
+        int ih = Integer.parseInt(h);
+
+        preview.setLayoutParams(new LinearLayout.LayoutParams(
+                convertDpToPx(iw), convertDpToPx(ih)));
+    }
 }
 
 
