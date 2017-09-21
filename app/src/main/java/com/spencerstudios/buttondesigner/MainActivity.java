@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     private String[] fc = {"#F44336", "#4CAF50", "#3F51B5"};
 
     private int [] tableIDs = {R.id.table_color, R.id.table_size};
-    private TableLayout [] tableLayouts = new TableLayout[tableIDs.length];
+    private LinearLayout [] tableLayouts = new LinearLayout[tableIDs.length];
 
     private EditText btnWidth, btnHeight;
 
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         angleList = new ArrayList<>();
 
         for (int i = 0 ; i  <  tableLayouts.length ; i ++){
-            tableLayouts[i] = (TableLayout)findViewById(tableIDs[i]);
+            tableLayouts[i] = (LinearLayout) findViewById(tableIDs[i]);
         }
 
         tableLayouts[1].setVisibility(GONE);

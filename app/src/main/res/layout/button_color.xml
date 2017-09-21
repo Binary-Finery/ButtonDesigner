@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/table_color">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
+        android:background="#323232"
+        android:padding="10dp">
+
+
+        <TableRow
+            android:id="@+id/row_color_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Switch
+                android:id="@+id/switch_gradient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gradient  "
+                android:textColor="#e91e63"
+                android:textStyle="bold" />
+
+            <Switch
+                android:id="@+id/switch_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="\tRadial  "
+                android:textColor="#e91e63"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row_center_x"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="Center X: "
+                android:textColor="#e91e63"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_cx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="3"
+                android:fontFamily="serif-monospace"
+                android:inputType="number"
+                android:singleLine="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="%" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row_center_y"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="Center Y: "
+                android:textColor="#e91e63"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_cy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="3"
+                android:fontFamily="serif-monospace"
+                android:inputType="number"
+                android:singleLine="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="%" />
+
+
+        </TableRow>
+
+
+        <TableRow
+            android:id="@+id/row_radius"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="Radius: "
+                android:textColor="#e91e63"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_rad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="3"
+                android:fontFamily="serif-monospace"
+                android:inputType="number"
+                android:singleLine="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row_orientation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="Angle: "
+                android:textColor="#e91e63"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spinner_angle"
+                android:layout_height="wrap_content" />
+
+        </TableRow>
+
+
+        <TableRow
+            android:id="@+id/row_include_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Center Color: "
+                android:textColor="#e91e63"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/cb_include_center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row_fabs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="8dp">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/f1"
+                app:backgroundTint="#00888f"
+                app:fabSize="mini" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/f2"
+                android:layout_marginStart="24dp"
+                app:backgroundTint="#ee434f"
+                app:fabSize="mini" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/f3"
+                android:layout_marginStart="24dp"
+                app:backgroundTint="#00444d"
+                app:fabSize="mini" />
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>
