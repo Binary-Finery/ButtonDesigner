@@ -127,6 +127,8 @@
 
                 <include layout="@layout/button_size" />
 
+                <include layout="@layout/button_border"/>
+
             </LinearLayout>
 
         </ScrollView>

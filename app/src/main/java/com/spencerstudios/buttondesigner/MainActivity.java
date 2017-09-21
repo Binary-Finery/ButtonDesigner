@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     private FloatingActionButton[] fabs = new FloatingActionButton[fabIDs.length];
     private String[] fc = {"#F44336", "#4CAF50", "#3F51B5"};
 
-    private int [] tableIDs = {R.id.table_color, R.id.table_size};
+    private int [] tableIDs = {R.id.table_color, R.id.table_size, R.id.border_layout};
     private LinearLayout [] tableLayouts = new LinearLayout[tableIDs.length];
 
     private EditText btnWidth, btnHeight;
@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         }
 
         tableLayouts[1].setVisibility(GONE);
+        tableLayouts[2].setVisibility(GONE);
 
         for (int i = 0; i < tabs.length; i++) {
             tabs[i] = (Button) findViewById(tabIDs[i]);
@@ -205,14 +206,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         if (v == tabs[0]) {
             tabs[0].setBackgroundResource(R.drawable.new_select);
-            tabs[0].setTextColor(Color.RED);
+            tabs[0].setTextColor(Color.WHITE);
             setTabs(1, 2, 3, 4);
             changeTab(tabSelected, 0);
             tabSelected  = 0;
         }
         if (v == tabs[1]) {
             tabs[1].setBackgroundResource(R.drawable.new_select);
-            tabs[1].setTextColor(Color.RED);
+            tabs[1].setTextColor(Color.WHITE);
             setTabs(0, 2, 3, 4);
             changeTab(tabSelected, 1);
             tabSelected = 1;
@@ -220,8 +221,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         }
         if (v == tabs[2]) {
             tabs[2].setBackgroundResource(R.drawable.new_select);
-            tabs[2].setTextColor(Color.RED);
+            tabs[2].setTextColor(Color.WHITE);
             setTabs(0, 1, 3, 4);
+            changeTab(tabSelected, 2);
 
             tabSelected = 2;
         }
