@@ -408,7 +408,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     private void setButtonSize(){
         String w, h;
 
-        w = btnHeight.getText().toString();
+        w = btnWidth.getText().toString();
         h = btnHeight.getText().toString();
 
         if (w.length() < 1) w = "0";
