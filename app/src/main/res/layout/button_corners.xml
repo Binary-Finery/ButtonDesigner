@@ -58,6 +58,7 @@
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:ems="3"
+                   android:inputType="number"
                    android:textColor="#e91e63"
                    android:textStyle="bold" />
            </TableRow>
@@ -69,11 +70,13 @@
                     android:text="Top right (dp): "
                     android:textColor="#e91e63"
                     android:textStyle="bold" />
+
                 <EditText
                     android:id="@+id/et_top_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="3"
+                    android:inputType="number"
                     android:textColor="#e91e63"
                     android:textStyle="bold" />
             </TableRow>
@@ -85,11 +88,13 @@
                     android:text="Bottom left (dp): "
                     android:textColor="#e91e63"
                     android:textStyle="bold" />
+
                 <EditText
                     android:id="@+id/et_bottom_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="3"
+                    android:inputType="number"
                     android:textColor="#e91e63"
                     android:textStyle="bold" />
             </TableRow>
@@ -101,11 +106,13 @@
                     android:text="bottom right (dp): "
                     android:textColor="#e91e63"
                     android:textStyle="bold" />
+
                 <EditText
                     android:id="@+id/et_bottom_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="3"
+                    android:inputType="number"
                     android:textColor="#e91e63"
                     android:textStyle="bold" />
             </TableRow>

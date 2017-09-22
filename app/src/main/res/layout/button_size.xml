@@ -14,7 +14,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="BUTTON HEIGHT (dp): "
+            android:text="Button width "
             android:textColor="#e91e63"
             android:textStyle="bold" />
 
@@ -28,14 +28,6 @@
             android:textStyle="bold" />
 
     </LinearLayout>
-
-    <Switch
-        android:id="@+id/switch_height_match"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="\t\tmatch parent"
-        android:textColor="#e91e63"
-        android:textStyle="bold" />
 
     <Switch
         android:id="@+id/switch_height_wrap"
@@ -54,7 +46,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="BUTTON WIDTH (dp): "
+            android:text="Button height: "
             android:textColor="#e91e63"
             android:textStyle="bold" />
 
@@ -68,14 +60,6 @@
             android:textStyle="bold" />
 
     </LinearLayout>
-
-    <Switch
-        android:id="@+id/switch_width_match"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="\t\tmatch parent"
-        android:textColor="#e91e63"
-        android:textStyle="bold" />
 
     <Switch
         android:id="@+id/switch_width_wrap"

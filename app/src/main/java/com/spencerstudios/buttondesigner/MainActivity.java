@@ -1,10 +1,12 @@
 package com.spencerstudios.buttondesigner;
 
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -12,6 +14,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -80,10 +83,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     private int[] cornerIDs = {R.id.et_all_corners, R.id.et_top_left, R.id.et_top_right, R.id.et_bottom_left, R.id.et_bottom_right};
     private EditText[] etCorners = new EditText[cornerIDs.length];
 
-    private int[] switchIDs = {R.id.switch_corners, R.id.switch_height_match, R.id.switch_height_wrap, R.id.switch_width_match, R.id.switch_width_wrap};
+    private int[] switchIDs = {R.id.switch_corners, R.id.switch_height_wrap, R.id.switch_width_wrap};
     private Switch[] switches = new Switch[switchIDs.length];
 
     private int tl, tr, bl, br;
+
+    private LinearLayout previewBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +98,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         findViews();
 
         angleList = new ArrayList<>();
+
+        previewBox = (LinearLayout)findViewById(R.id.preview_container);
 
         for (int i = 0; i < linearLayouts.length; i++) {
             linearLayouts[i] = (LinearLayout) findViewById(layoutIDs[i]);
@@ -354,9 +361,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             tr = validateEdits(etCorners[2]);
             bl = validateEdits(etCorners[3]);
             br = validateEdits(etCorners[4]);
-        }else{
+        } else {
             int x = validateEdits(etCorners[0]);
-            tl = x; tr = x; bl = x; br = x;
+            tl = x;
+            tr = x;
+            bl = x;
+            br = x;
         }
 
         shape.setCornerRadii(new float[]{
@@ -380,18 +390,18 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         return (int) ((dp * displayMetrics.density) + .5);
     }
 
+    private int pxToDp(int px) {
+        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
+    }
+
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (tabSelected == 0 || tabSelected == 2) {
-            applySettings();
-        } else if (tabSelected == 3) {
-            setButtonSize();
-        }
-
+        if (tabSelected != 3) applySettings();
+        else setButtonSize();
     }
 
     @Override
@@ -442,19 +452,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     }
 
     private void setButtonSize() {
-        String w, h;
 
-        w = btnWidth.getText().toString();
-        h = btnHeight.getText().toString();
-
-        if (w.length() < 1) w = "0";
-        if (h.length() < 1) h = "0";
-
-        int iw = Integer.parseInt(w);
-        int ih = Integer.parseInt(h);
+        int iw = validateEdits(btnWidth);
+        int ih = validateEdits(btnHeight);
 
         preview.setLayoutParams(new LinearLayout.LayoutParams(
-                convertDpToPx(iw), convertDpToPx(ih)));
+            switches[1].isChecked() ? LinearLayout.LayoutParams.WRAP_CONTENT : convertDpToPx(ih), switches[2].isChecked() ? LinearLayout.LayoutParams.WRAP_CONTENT : convertDpToPx(iw)));
     }
 
     @Override
@@ -463,14 +466,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         if (id == R.id.switch_corners) {
             applySettings();
-        } else if (id == R.id.switch_height_match) {
-            if (switches[1].isChecked()) switches[2].setChecked(false);
-        } else if (id == R.id.switch_height_wrap) {
-            if (switches[2].isChecked()) switches[1].setChecked(false);
-        } else if (id == R.id.switch_width_match) {
-            if (switches[3].isChecked()) switches[4].setChecked(false);
-        } else if (id == R.id.switch_width_wrap) {
-            if (switches[4].isChecked()) switches[3].setChecked(false);
+        }  else if (id == R.id.switch_height_wrap) {
+            setButtonSize();
+        }  else if (id == R.id.switch_width_wrap) {
+           setButtonSize();
         }
     }
 
