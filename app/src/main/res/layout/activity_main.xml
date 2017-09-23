@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -23,11 +22,11 @@
         <Button
             android:id="@+id/btn_preview"
             android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_height="75dp"
             android:text="Test"
             android:textAllCaps="false"
             android:textColor="#ffffff"
-            android:textSize="20dp" />
+            android:textSize="22dp" />
 
     </LinearLayout>
 
@@ -96,18 +95,7 @@
                     android:capitalize="words"
                     android:paddingEnd="5dp"
                     android:paddingStart="5dp"
-                    android:text="Size"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/tab5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg"
-                    android:capitalize="none"
-                    android:paddingEnd="5dp"
-                    android:paddingStart="5dp"
-                    android:text="Generate XML"
+                    android:text="Size | Text"
                     android:textStyle="bold" />
 
             </LinearLayout>

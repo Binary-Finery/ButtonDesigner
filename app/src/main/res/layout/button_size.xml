@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/size_layout"
     android:padding="16dp"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BUTTON SIZE"
+        android:textColor="#e91e63"
+        android:textStyle="bold" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:orientation="horizontal">
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button width "
+            android:text="Width "
             android:textColor="#e91e63"
             android:textStyle="bold" />
 
@@ -23,30 +33,43 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="3"
+            android:gravity="center_horizontal"
             android:inputType="number"
+            android:textColor="#e91e63"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="dp"
+            android:textColor="#e91e63"
+            android:textStyle="bold" />
+
+        <Switch
+            android:id="@+id/switch_height_wrap"
+            android:layout_width="0dp"
+            android:gravity="end|center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="wrap  "
+            android:layout_marginStart="16dp"
             android:textColor="#e91e63"
             android:textStyle="bold" />
 
     </LinearLayout>
 
-    <Switch
-        android:id="@+id/switch_height_wrap"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="\t\twrap content"
-        android:textColor="#e91e63"
-        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:orientation="horizontal">
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button height: "
+            android:text="Height "
             android:textColor="#e91e63"
             android:textStyle="bold" />
 
@@ -55,18 +78,116 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="3"
+            android:gravity="center_horizontal"
             android:inputType="number"
+            android:textColor="#e91e63"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="dp"
+            android:textColor="#e91e63"
+            android:textStyle="bold" />
+
+        <Switch
+            android:id="@+id/switch_width_wrap"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="end|center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="wrap  "
             android:textColor="#e91e63"
             android:textStyle="bold" />
 
     </LinearLayout>
 
-    <Switch
-        android:id="@+id/switch_width_wrap"
-        android:layout_width="match_parent"
+
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="\t\twrap content"
+        android:layout_marginTop="16dp"
+        android:text="TEXT PROPERTIES"
         android:textColor="#e91e63"
         android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Size "
+            android:textColor="#e91e63"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/et_btn_text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="3"
+            android:gravity="center_horizontal"
+            android:inputType="number"
+            android:textColor="#e91e63"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sp"
+            android:textColor="#e91e63"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="#e91e63"
+            android:textStyle="bold"
+            android:text="Color " />
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="16dp"
+            android:id="@+id/fab_txt_color"
+            app:backgroundTint="#ffffff"
+            app:fabSize="mini" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textColor="#e91e63"
+            android:textStyle="bold"
+            android:text="Text " />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#ffffff"
+            android:singleLine="true"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
 </LinearLayout>

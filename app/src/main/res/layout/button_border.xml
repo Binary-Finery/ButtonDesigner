@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Width(dp): "
+            android:text="Width "
             android:textColor="#e91e63"
             android:textStyle="bold" />
 
@@ -24,7 +24,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="3"
-            android:inputType="number"/>
+            android:gravity="center_horizontal"
+            android:inputType="number" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="dp"
+            android:textColor="#e91e63"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout

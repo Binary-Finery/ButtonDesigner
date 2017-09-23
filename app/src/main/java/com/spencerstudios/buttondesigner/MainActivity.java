@@ -6,15 +6,14 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,7 +24,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TableRow;
-import android.widget.Toast;
 
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback;
@@ -68,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     private int angleSelected = 1, tabSelected = 0;
 
-    private int[] tabIDs = {R.id.tab1, R.id.tab2, R.id.tab3, R.id.tab4, R.id.tab5}, fabIDs = {R.id.f1, R.id.f2, R.id.f3};
+    private int[] tabIDs = {R.id.tab1, R.id.tab2, R.id.tab3, R.id.tab4}, fabIDs = {R.id.f1, R.id.f2, R.id.f3};
     private Button[] tabs = new Button[tabIDs.length];
 
     private Button preview;
@@ -89,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     private int tl, tr, bl, br;
 
     private LinearLayout previewBox;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -224,6 +223,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         displayMechanics();
         applySettings();
+
+        preview.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40);
+
+        tabs[0].setBackgroundResource(R.drawable.new_select);
+        tabs[0].setTextColor(Color.WHITE);
+        setTabs(1, 2, 3);
+        changeTab(tabSelected, 0);
     }
 
 
@@ -233,14 +239,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         if (v == tabs[0]) {
             tabs[0].setBackgroundResource(R.drawable.new_select);
             tabs[0].setTextColor(Color.WHITE);
-            setTabs(1, 2, 3, 4);
+            setTabs(1, 2, 3);
             changeTab(tabSelected, 0);
             tabSelected = 0;
         }
         if (v == tabs[1]) {
             tabs[1].setBackgroundResource(R.drawable.new_select);
             tabs[1].setTextColor(Color.WHITE);
-            setTabs(0, 2, 3, 4);
+            setTabs(0, 2, 3);
             changeTab(tabSelected, 1);
             tabSelected = 1;
 
@@ -248,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         if (v == tabs[2]) {
             tabs[2].setBackgroundResource(R.drawable.new_select);
             tabs[2].setTextColor(Color.WHITE);
-            setTabs(0, 1, 3, 4);
+            setTabs(0, 1, 3);
             changeTab(tabSelected, 2);
 
             tabSelected = 2;
@@ -256,17 +262,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         if (v == tabs[3]) {
             tabs[3].setBackgroundResource(R.drawable.new_select);
             tabs[3].setTextColor(Color.WHITE);
-            setTabs(0, 1, 2, 4);
+            setTabs(0, 1, 2);
             changeTab(tabSelected, 3);
             tabSelected = 3;
         }
-        if (v == tabs[4]) {
-            tabs[4].setBackgroundResource(R.drawable.new_select);
-            tabs[4].setTextColor(Color.parseColor("#E91E63"));
-            setTabs(0, 1, 2, 3);
-            tabSelected = 4;
-        }
-
         if (v == fabs[0]) {
             select = 0;
             cp.show();
@@ -374,10 +373,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 convertDpToPx(tl), //top left
                 convertDpToPx(tr), //top right
                 convertDpToPx(tr), //top right
-                convertDpToPx(bl), //bottom lef
-                convertDpToPx(bl), //bottom left
                 convertDpToPx(br), //bottom right
-                convertDpToPx(br)  //bottom right
+                convertDpToPx(br), //bottom right
+                convertDpToPx(bl), //bottom left
+                convertDpToPx(bl)  //bottom left
         });
 
         shape.setStroke(convertDpToPx(3), Color.parseColor("#929292"));

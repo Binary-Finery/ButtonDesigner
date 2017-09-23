@@ -14,7 +14,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="All corners radii(dp):"
+            android:text="All corners "
             android:textColor="#e91e63"
             android:textStyle="bold" />
 
@@ -23,15 +23,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="3"
+            android:gravity="center_horizontal"
             android:inputType="number"
             android:textColor="#e91e63" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="dp"
+            android:textColor="#e91e63"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <Switch
         android:id="@+id/switch_corners"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Use individual properties"
+        android:text="Use individual properties\t\t"
         android:textColor="#e91e63"
         android:textStyle="bold" />
 
@@ -49,7 +57,7 @@
                <TextView
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
-                   android:text="Top left (dp): "
+                   android:text="Top left "
                    android:textColor="#e91e63"
                    android:textStyle="bold" />
 
@@ -58,7 +66,15 @@
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:ems="3"
+                   android:gravity="center_horizontal"
                    android:inputType="number"
+                   android:textColor="#e91e63"
+                   android:textStyle="bold" />
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="dp"
                    android:textColor="#e91e63"
                    android:textStyle="bold" />
            </TableRow>
@@ -67,7 +83,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Top right (dp): "
+                    android:text="Top right "
                     android:textColor="#e91e63"
                     android:textStyle="bold" />
 
@@ -76,7 +92,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="3"
+                    android:gravity="center_horizontal"
                     android:inputType="number"
+                    android:textColor="#e91e63"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="dp"
                     android:textColor="#e91e63"
                     android:textStyle="bold" />
             </TableRow>
@@ -85,7 +109,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Bottom left (dp): "
+                    android:text="Bottom left "
                     android:textColor="#e91e63"
                     android:textStyle="bold" />
 
@@ -94,7 +118,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="3"
+                    android:gravity="center_horizontal"
                     android:inputType="number"
+                    android:textColor="#e91e63"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="dp"
                     android:textColor="#e91e63"
                     android:textStyle="bold" />
             </TableRow>
@@ -103,7 +135,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="bottom right (dp): "
+                    android:text="bottom right "
                     android:textColor="#e91e63"
                     android:textStyle="bold" />
 
@@ -112,7 +144,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="3"
+                    android:gravity="center_horizontal"
                     android:inputType="number"
+                    android:textColor="#e91e63"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="dp"
                     android:textColor="#e91e63"
                     android:textStyle="bold" />
             </TableRow>
