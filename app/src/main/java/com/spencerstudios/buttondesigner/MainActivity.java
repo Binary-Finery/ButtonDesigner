@@ -66,12 +66,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     private int angleSelected = 1, tabSelected = 0;
 
-    private int[] tabIDs = {R.id.tab1, R.id.tab2, R.id.tab3, R.id.tab4}, fabIDs = {R.id.f1, R.id.f2, R.id.f3};
+    private int[] tabIDs = {R.id.tab1, R.id.tab2, R.id.tab3, R.id.tab4}, fabIDs = {R.id.f1, R.id.f2, R.id.f3, R.id.fab_txt_color, R.id.fab_border_color};
     private Button[] tabs = new Button[tabIDs.length];
 
     private Button preview;
     private FloatingActionButton[] fabs = new FloatingActionButton[fabIDs.length];
-    private String[] fc = {"#F44336", "#4CAF50", "#3F51B5"};
+    private String[] fc = {"#F44336", "#4CAF50", "#3F51B5", "#FFFFFF", "#e91e63"};
 
     private int[] layoutIDs = {R.id.color_layout, R.id.border_layout, R.id.corners_layout, R.id.size_layout};
     private LinearLayout[] linearLayouts = new LinearLayout[layoutIDs.length];
@@ -83,6 +83,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     private int[] switchIDs = {R.id.switch_corners, R.id.switch_height_wrap, R.id.switch_width_wrap};
     private Switch[] switches = new Switch[switchIDs.length];
+
+    private EditText etBtnText, etTextSize;
 
     private int tl, tr, bl, br;
 
@@ -98,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         angleList = new ArrayList<>();
 
-        previewBox = (LinearLayout)findViewById(R.id.preview_container);
+        previewBox = (LinearLayout) findViewById(R.id.preview_container);
 
         for (int i = 0; i < linearLayouts.length; i++) {
             linearLayouts[i] = (LinearLayout) findViewById(layoutIDs[i]);
@@ -139,6 +141,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         btnHeight.addTextChangedListener(this);
         btnWidth.addTextChangedListener(this);
+
+        etBtnText = (EditText) findViewById(R.id.et_btn_txt);
+        etTextSize = (EditText) findViewById(R.id.et_btn_text_size);
+
+        etTextSize.addTextChangedListener(this);
+        etBtnText.addTextChangedListener(this);
 
         angleSpinner = (Spinner) findViewById(R.id.spinner_angle);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, angleList);
@@ -189,10 +197,21 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         cp.setCallback(new ColorPickerCallback() {
             @Override
             public void onColorChosen(@ColorInt int color) {
+
                 String s = String.format("#%06X", (0xFFFFFF & color));
-                fabs[select].setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(s)));
-                fc[select] = s;
-                applySettings();
+
+                if (select != 3) {
+                    fabs[select].setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(s)));
+                    fc[select] = s;
+                    applySettings();
+                } else if (select == 3) {
+                    fabs[select].setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(s)));
+                    preview.setTextColor(Color.parseColor(s));
+                } else if (select == 4) {
+                    fabs[select].setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(s)));
+                    fc[select] = s;
+                    applySettings();
+                }
                 cp.dismiss();
             }
         });
@@ -276,6 +295,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         }
         if (v == fabs[2]) {
             select = 2;
+            cp.show();
+        }
+        if (v == fabs[3]) {
+            select = 3;
+            cp.show();
+        }
+        if (v == fabs[4]) {
+            select = 4;
             cp.show();
         }
     }
@@ -379,7 +406,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 convertDpToPx(bl)  //bottom left
         });
 
-        shape.setStroke(convertDpToPx(3), Color.parseColor("#929292"));
+        shape.setStroke(convertDpToPx(3), Color.parseColor(fc[4]));
 
         preview.setBackgroundDrawable(shape);
     }
@@ -399,6 +426,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+
         if (tabSelected != 3) applySettings();
         else setButtonSize();
     }
@@ -455,8 +483,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         int iw = validateEdits(btnWidth);
         int ih = validateEdits(btnHeight);
 
-        preview.setLayoutParams(new LinearLayout.LayoutParams(
-            switches[1].isChecked() ? LinearLayout.LayoutParams.WRAP_CONTENT : convertDpToPx(ih), switches[2].isChecked() ? LinearLayout.LayoutParams.WRAP_CONTENT : convertDpToPx(iw)));
+        preview.setLayoutParams(new LinearLayout.LayoutParams(switches[1].isChecked() ? LinearLayout.LayoutParams.WRAP_CONTENT : convertDpToPx(ih), switches[2].isChecked() ? LinearLayout.LayoutParams.WRAP_CONTENT : convertDpToPx(iw)));
+        String txt = etBtnText.getText().toString();
+        preview.setText(txt);
+
+        String ts = etTextSize.getText().toString();
+        int its = 0;
+        if (TextUtils.isEmpty(ts)) its = 14;
+        else its = Integer.parseInt(ts);
+        preview.setTextSize(TypedValue.COMPLEX_UNIT_SP, its);
     }
 
     @Override
@@ -465,10 +500,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         if (id == R.id.switch_corners) {
             applySettings();
-        }  else if (id == R.id.switch_height_wrap) {
+        } else if (id == R.id.switch_height_wrap) {
             setButtonSize();
-        }  else if (id == R.id.switch_width_wrap) {
-           setButtonSize();
+        } else if (id == R.id.switch_width_wrap) {
+            setButtonSize();
         }
     }
 
