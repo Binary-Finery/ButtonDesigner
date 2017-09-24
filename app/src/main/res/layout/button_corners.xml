@@ -25,7 +25,8 @@
             android:ems="3"
             android:gravity="center_horizontal"
             android:inputType="number"
-            android:textColor="#e91e63" />
+            android:textColor="#e91e63"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,6 +40,7 @@
         android:id="@+id/switch_corners"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="Use individual properties\t\t"
         android:textColor="#e91e63"
         android:textStyle="bold" />
@@ -57,6 +59,7 @@
                <TextView
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
+                   android:layout_marginStart="16dp"
                    android:text="Top left "
                    android:textColor="#e91e63"
                    android:textStyle="bold" />
@@ -80,9 +83,11 @@
            </TableRow>
 
             <TableRow>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:text="Top right "
                     android:textColor="#e91e63"
                     android:textStyle="bold" />
@@ -106,9 +111,11 @@
             </TableRow>
 
             <TableRow>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:text="Bottom left "
                     android:textColor="#e91e63"
                     android:textStyle="bold" />
@@ -132,9 +139,11 @@
             </TableRow>
 
             <TableRow>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:text="bottom right "
                     android:textColor="#e91e63"
                     android:textStyle="bold" />

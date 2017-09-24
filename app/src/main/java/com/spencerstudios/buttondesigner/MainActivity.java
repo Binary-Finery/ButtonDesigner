@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     private boolean useGradient = true, linearSelected = true, hasCenterColor = true;
 
-    private EditText etCx, etCy, etRad;
+    private EditText etCx, etCy, etRad, etBorderWidth;
 
     private GradientDrawable shape;
 
@@ -138,15 +138,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         btnHeight = (EditText) findViewById(R.id.et_btn_height);
         btnWidth = (EditText) findViewById(R.id.et_btn_width);
-
-        btnHeight.addTextChangedListener(this);
-        btnWidth.addTextChangedListener(this);
-
         etBtnText = (EditText) findViewById(R.id.et_btn_txt);
         etTextSize = (EditText) findViewById(R.id.et_btn_text_size);
+        etBorderWidth = (EditText) findViewById(R.id.et_border_width);
 
+        etBorderWidth.addTextChangedListener(this);
         etTextSize.addTextChangedListener(this);
         etBtnText.addTextChangedListener(this);
+        btnHeight.addTextChangedListener(this);
+        btnWidth.addTextChangedListener(this);
 
         angleSpinner = (Spinner) findViewById(R.id.spinner_angle);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, angleList);
@@ -230,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         switchRadial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                linearSelected = isChecked;
+                linearSelected = !isChecked;
                 displayMechanics();
                 applySettings();
             }
@@ -240,15 +240,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         etCy.addTextChangedListener(this);
         etRad.addTextChangedListener(this);
 
-        displayMechanics();
-        applySettings();
-
-        preview.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40);
-
         tabs[0].setBackgroundResource(R.drawable.new_select);
         tabs[0].setTextColor(Color.WHITE);
         setTabs(1, 2, 3);
         changeTab(tabSelected, 0);
+
+        setDefaultValues();
     }
 
 
@@ -324,6 +321,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
             vis(rowIncludeCenterColor, 1);
             vis(rowRadius, 1);
+            fabs[1].setVisibility(VISIBLE);
+            switchRadial.setVisibility(VISIBLE);
+            if (hasCenterColor) fabs[2].setVisibility(VISIBLE);
+
 
             if (linearSelected) {
                 vis(rowCX, 0);
@@ -342,6 +343,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             vis(rowCY, 0);
             vis(rowIncludeCenterColor, 0);
             vis(rowRadius, 0);
+            fabs[1].setVisibility(GONE);
+            fabs[2].setVisibility(GONE);
+            switchRadial.setVisibility(GONE);
         }
     }
 
@@ -406,7 +410,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 convertDpToPx(bl)  //bottom left
         });
 
-        shape.setStroke(convertDpToPx(3), Color.parseColor(fc[4]));
+        shape.setStroke(convertDpToPx(validateEdits(etBorderWidth)), Color.parseColor(fc[4]));
 
         preview.setBackgroundDrawable(shape);
     }
@@ -512,6 +516,24 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         if (TextUtils.isEmpty(s))
             s = "0";
         return Integer.parseInt(s);
+    }
+
+    private void setDefaultValues() {
+        final String BTN_DIMS = "100";
+        switchGradient.setChecked(useGradient);
+        switchRadial.setChecked(!linearSelected);
+        cbCenterColor.setChecked(hasCenterColor);
+        btnWidth.setText(BTN_DIMS);
+        btnHeight.setText(BTN_DIMS);
+        etTextSize.setText("16");
+        etBtnText.setText("Preview");
+        etBorderWidth.setText("1");
+
+        displayMechanics();
+        setButtonColors();
+        setButtonSize();
+        applySettings();
+
     }
 }
 

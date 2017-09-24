@@ -56,9 +56,10 @@
 
                 <Button
                     android:id="@+id/tab1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/selected_tab"
+                    android:layout_weight=".25"
                     android:capitalize="none"
                     android:paddingEnd="5dp"
                     android:paddingStart="5dp"
@@ -67,7 +68,8 @@
 
                 <Button
                     android:id="@+id/tab2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight=".25"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg"
                     android:capitalize="none"
@@ -78,7 +80,8 @@
 
                 <Button
                     android:id="@+id/tab3"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight=".25"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg"
                     android:capitalize="words"
@@ -89,8 +92,9 @@
 
                 <Button
                     android:id="@+id/tab4"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight=".25"
                     android:background="@drawable/bg"
                     android:capitalize="words"
                     android:paddingEnd="5dp"

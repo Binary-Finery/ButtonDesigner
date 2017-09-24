@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="Center X: "
+                android:text="Center X"
                 android:textColor="#e91e63"
                 android:textStyle="bold" />
 
@@ -54,14 +54,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="3"
-                android:fontFamily="serif-monospace"
+                android:gravity="center_horizontal"
                 android:inputType="number"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textColor="#e91e63"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="%" />
+                android:ems="3"
+                android:text="%"
+                android:textColor="#e91e63"
+                android:textStyle="bold" />
 
         </TableRow>
 
@@ -75,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="Center Y: "
+                android:text="Center Y"
                 android:textColor="#e91e63"
                 android:textStyle="bold" />
 
@@ -84,14 +89,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="3"
-                android:fontFamily="serif-monospace"
+                android:gravity="center_horizontal"
                 android:inputType="number"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textColor="#e91e63"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="%" />
+                android:ems="3"
+                android:text="%"
+                android:textColor="#e91e63"
+                android:textStyle="bold" />
 
 
         </TableRow>
@@ -107,7 +117,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="Radius: "
+                android:text="Radius"
                 android:textColor="#e91e63"
                 android:textStyle="bold" />
 
@@ -116,14 +126,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="3"
-                android:fontFamily="serif-monospace"
+                android:gravity="center_horizontal"
                 android:inputType="number"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textColor="#e91e63"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="dp" />
+                android:ems="3"
+                android:text="dp"
+                android:textColor="#e91e63"
+                android:textStyle="bold" />
 
         </TableRow>
 
@@ -137,7 +152,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="Angle: "
+                android:text="Angle"
                 android:textColor="#e91e63"
                 android:textStyle="bold" />
 

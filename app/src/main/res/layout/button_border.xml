@@ -25,7 +25,9 @@
             android:layout_height="wrap_content"
             android:ems="3"
             android:gravity="center_horizontal"
-            android:inputType="number" />
+            android:inputType="number"
+            android:textColor="#e91e63"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
