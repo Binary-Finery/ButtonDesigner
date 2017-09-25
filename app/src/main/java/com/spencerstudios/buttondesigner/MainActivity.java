@@ -1,7 +1,6 @@
 package com.spencerstudios.buttondesigner;
 
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -13,6 +12,8 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,9 +22,11 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TableRow;
+import android.widget.Toast;
 
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback;
@@ -45,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     private Switch switchGradient, switchRadial, switchCorners;
     private ColorPicker cp;
 
+    private ScrollView scroll;
+
 
     private boolean twoColorsSelected = false, singleColor = false, triColors = false, hasBorder = true, isVertical = false;
 
@@ -64,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     private ArrayList<String> angleList;
 
-    private int angleSelected = 1, tabSelected = 0;
+    private int angleSelected = 1, tabSelected = 0, tl, tr, bl, br;
 
     private int[] tabIDs = {R.id.tab1, R.id.tab2, R.id.tab3, R.id.tab4}, fabIDs = {R.id.f1, R.id.f2, R.id.f3, R.id.fab_txt_color, R.id.fab_border_color};
     private Button[] tabs = new Button[tabIDs.length];
@@ -81,34 +86,24 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     private int[] cornerIDs = {R.id.et_all_corners, R.id.et_top_left, R.id.et_top_right, R.id.et_bottom_left, R.id.et_bottom_right};
     private EditText[] etCorners = new EditText[cornerIDs.length];
 
-    private int[] switchIDs = {R.id.switch_corners, R.id.switch_height_wrap, R.id.switch_width_wrap};
+    private int[] switchIDs = {R.id.switch_corners, R.id.switch_height_wrap, R.id.switch_width_wrap, R.id.switch_all_caps};
     private Switch[] switches = new Switch[switchIDs.length];
 
     private EditText etBtnText, etTextSize;
-
-    private int tl, tr, bl, br;
-
-    private LinearLayout previewBox;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViews();
-
         angleList = new ArrayList<>();
 
-        previewBox = (LinearLayout) findViewById(R.id.preview_container);
+        scroll = (ScrollView) findViewById(R.id.main_scrollview);
 
-        for (int i = 0; i < linearLayouts.length; i++) {
+        for (int i = 0; i < linearLayouts.length; i++)
             linearLayouts[i] = (LinearLayout) findViewById(layoutIDs[i]);
-        }
 
-        linearLayouts[1].setVisibility(GONE);
-        linearLayouts[2].setVisibility(GONE);
-        linearLayouts[3].setVisibility(GONE);
+        for (int i = 1; i <= 3; i++) linearLayouts[i].setVisibility(GONE);
 
         for (int i = 0; i < tabs.length; i++) {
             tabs[i] = (Button) findViewById(tabIDs[i]);
@@ -142,6 +137,21 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         etTextSize = (EditText) findViewById(R.id.et_btn_text_size);
         etBorderWidth = (EditText) findViewById(R.id.et_border_width);
 
+        rowCX = (TableRow) findViewById(R.id.row_center_x);
+        rowCY = (TableRow) findViewById(R.id.row_center_y);
+        rowOrien = (TableRow) findViewById(R.id.row_orientation);
+        rowIncludeCenterColor = (TableRow) findViewById(R.id.row_include_center);
+        rowRadius = (TableRow) findViewById(R.id.row_radius);
+
+        preview = (Button) findViewById(R.id.btn_preview);
+        etCx = (EditText) findViewById(R.id.et_cx);
+        etCy = (EditText) findViewById(R.id.et_cy);
+        etRad = (EditText) findViewById(R.id.et_rad);
+
+        cbCenterColor = (CheckBox) findViewById(R.id.cb_include_center);
+        switchGradient = (Switch) findViewById(R.id.switch_gradient);
+        switchRadial = (Switch) findViewById(R.id.switch_type);
+
         etBorderWidth.addTextChangedListener(this);
         etTextSize.addTextChangedListener(this);
         etBtnText.addTextChangedListener(this);
@@ -168,20 +178,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         shape.setShape(GradientDrawable.RECTANGLE);
 
-        rowCX = (TableRow) findViewById(R.id.row_center_x);
-        rowCY = (TableRow) findViewById(R.id.row_center_y);
-        rowOrien = (TableRow) findViewById(R.id.row_orientation);
-        rowIncludeCenterColor = (TableRow) findViewById(R.id.row_include_center);
-        rowRadius = (TableRow) findViewById(R.id.row_radius);
 
-        preview = (Button) findViewById(R.id.btn_preview);
-        etCx = (EditText) findViewById(R.id.et_cx);
-        etCy = (EditText) findViewById(R.id.et_cy);
-        etRad = (EditText) findViewById(R.id.et_rad);
-
-        cbCenterColor = (CheckBox) findViewById(R.id.cb_include_center);
-        switchGradient = (Switch) findViewById(R.id.switch_gradient);
-        switchRadial = (Switch) findViewById(R.id.switch_type);
         cbCenterColor.setChecked(hasCenterColor);
 
         cbCenterColor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -258,6 +255,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             setTabs(1, 2, 3);
             changeTab(tabSelected, 0);
             tabSelected = 0;
+            scroll.fullScroll(ScrollView.FOCUS_UP);
         }
         if (v == tabs[1]) {
             tabs[1].setBackgroundResource(R.drawable.new_select);
@@ -265,6 +263,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             setTabs(0, 2, 3);
             changeTab(tabSelected, 1);
             tabSelected = 1;
+            scroll.fullScroll(ScrollView.FOCUS_UP);
 
         }
         if (v == tabs[2]) {
@@ -272,8 +271,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             tabs[2].setTextColor(Color.WHITE);
             setTabs(0, 1, 3);
             changeTab(tabSelected, 2);
-
             tabSelected = 2;
+            scroll.fullScroll(ScrollView.FOCUS_UP);
         }
         if (v == tabs[3]) {
             tabs[3].setBackgroundResource(R.drawable.new_select);
@@ -281,6 +280,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             setTabs(0, 1, 2);
             changeTab(tabSelected, 3);
             tabSelected = 3;
+            scroll.fullScroll(ScrollView.FOCUS_UP);
         }
         if (v == fabs[0]) {
             select = 0;
@@ -314,6 +314,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     private void changeTab(int current, int next) {
         linearLayouts[current].setVisibility(GONE);
         linearLayouts[next].setVisibility(VISIBLE);
+
     }
 
     private void displayMechanics() {
@@ -350,8 +351,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     }
 
     private void vis(TableRow tr, int v) {
-        boolean visible = v == 1;
-        tr.setVisibility(visible ? VISIBLE : GONE);
+        tr.setVisibility(v == 1 ? VISIBLE : GONE);
     }
 
     private void applySettings() {
@@ -420,10 +420,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         return (int) ((dp * displayMetrics.density) + .5);
     }
 
-    private int pxToDp(int px) {
-        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
-    }
-
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
@@ -447,9 +443,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             int[] c = {Color.parseColor(fc[0]), Color.parseColor(fc[1])};
             shape.setColors(c);
         }
-    }
-
-    private void findViews() {
     }
 
     private void constructXml() {
@@ -492,10 +485,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         preview.setText(txt);
 
         String ts = etTextSize.getText().toString();
-        int its = 0;
-        if (TextUtils.isEmpty(ts)) its = 14;
-        else its = Integer.parseInt(ts);
+        int its;
+        its = TextUtils.isEmpty(ts) ? 14 : Integer.parseInt(ts);
         preview.setTextSize(TypedValue.COMPLEX_UNIT_SP, its);
+        preview.setText(switches[3].isChecked() ? preview.getText().toString().toUpperCase() : preview.getText().toString());
     }
 
     @Override
@@ -504,9 +497,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         if (id == R.id.switch_corners) {
             applySettings();
-        } else if (id == R.id.switch_height_wrap) {
-            setButtonSize();
-        } else if (id == R.id.switch_width_wrap) {
+        } else {
             setButtonSize();
         }
     }
@@ -535,6 +526,21 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         applySettings();
 
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_done)
+            Toast.makeText(MainActivity.this, "pressed!", Toast.LENGTH_SHORT).show();
+        return super.onOptionsItemSelected(item);
+    }
+
 }
 
 

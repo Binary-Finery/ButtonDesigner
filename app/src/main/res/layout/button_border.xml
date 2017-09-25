@@ -26,6 +26,7 @@
             android:ems="3"
             android:gravity="center_horizontal"
             android:inputType="number"
+            android:maxLength="3"
             android:textColor="#e91e63"
             android:textStyle="bold" />
 
