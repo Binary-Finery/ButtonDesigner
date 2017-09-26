@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="left"
-    android:textColor="#e91e63"
+    android:textColor="#525252"
+    android:textStyle="bold"
+    android:textSize="12sp"
     android:padding="10dp"
     />

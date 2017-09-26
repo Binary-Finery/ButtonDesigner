@@ -34,12 +34,6 @@
         android:layout_weight="1.2"
         android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="#424242" />
-
-
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,37 +49,49 @@
                     android:id="@+id/tab1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/selected_tab"
                     android:layout_weight=".25"
+                    android:background="@drawable/test_case"
                     android:capitalize="none"
+                    android:editable="false"
                     android:paddingEnd="5dp"
                     android:paddingStart="5dp"
+                    android:shadowColor="#fff"
                     android:text="Color"
-                    android:textStyle="bold" />
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    tools:editable="false" />
 
                 <Button
                     android:id="@+id/tab2"
                     android:layout_width="0dp"
-                    android:layout_weight=".25"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg"
+                    android:layout_weight=".25"
+                    android:background="@drawable/test_case"
                     android:capitalize="none"
+                    android:editable="false"
                     android:paddingEnd="5dp"
                     android:paddingStart="5dp"
+                    android:shadowColor="#fff"
                     android:text="Border"
-                    android:textStyle="bold" />
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    tools:editable="false" />
 
                 <Button
                     android:id="@+id/tab3"
                     android:layout_width="0dp"
-                    android:layout_weight=".25"
                     android:layout_height="wrap_content"
+                    android:layout_weight=".25"
                     android:background="@drawable/bg"
                     android:capitalize="words"
+                    android:editable="false"
                     android:paddingEnd="5dp"
                     android:paddingStart="5dp"
+                    android:shadowColor="#fff"
                     android:text="Corners"
-                    android:textStyle="bold" />
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    tools:editable="false" />
 
                 <Button
                     android:id="@+id/tab4"
@@ -94,10 +100,14 @@
                     android:layout_weight=".25"
                     android:background="@drawable/bg"
                     android:capitalize="words"
+                    android:editable="false"
                     android:paddingEnd="5dp"
                     android:paddingStart="5dp"
+                    android:shadowColor="#fff"
                     android:text="Size | Text"
-                    android:textStyle="bold" />
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    tools:editable="false" />
 
             </LinearLayout>
 

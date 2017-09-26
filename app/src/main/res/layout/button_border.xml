@@ -16,7 +16,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Width "
-            android:textColor="#e91e63"
+            android:textColor="#525252"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <EditText
@@ -27,14 +28,16 @@
             android:gravity="center_horizontal"
             android:inputType="number"
             android:maxLength="3"
-            android:textColor="#e91e63"
+            android:textColor="#525252"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="dp"
-            android:textColor="#e91e63"
+            android:textColor="#525252"
+            android:textSize="12sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -48,7 +51,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="Color "
-            android:textColor="#e91e63"
+            android:textColor="#525252"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <android.support.design.widget.FloatingActionButton

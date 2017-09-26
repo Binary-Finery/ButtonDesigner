@@ -15,7 +15,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="All corners "
-            android:textColor="#e91e63"
+            android:textColor="#525252"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <EditText
@@ -26,14 +27,16 @@
             android:gravity="center_horizontal"
             android:inputType="number"
             android:maxLength="3"
-            android:textColor="#e91e63"
+            android:textColor="#525252"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="dp"
-            android:textColor="#e91e63"
+            android:textColor="#525252"
+            android:textSize="12sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -43,7 +46,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Use individual properties\t\t"
-        android:textColor="#e91e63"
+        android:textColor="#525252"
+        android:textSize="12sp"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -62,7 +66,8 @@
                    android:layout_height="wrap_content"
                    android:layout_marginStart="16dp"
                    android:text="Top left "
-                   android:textColor="#e91e63"
+                   android:textColor="#525252"
+                   android:textSize="12sp"
                    android:textStyle="bold" />
 
                <EditText
@@ -73,14 +78,16 @@
                    android:gravity="center_horizontal"
                    android:inputType="number"
                    android:maxLength="3"
-                   android:textColor="#e91e63"
+                   android:textColor="#525252"
+                   android:textSize="12sp"
                    android:textStyle="bold" />
 
                <TextView
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:text="dp"
-                   android:textColor="#e91e63"
+                   android:textColor="#525252"
+                   android:textSize="12sp"
                    android:textStyle="bold" />
            </TableRow>
 
@@ -91,7 +98,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:text="Top right "
-                    android:textColor="#e91e63"
+                    android:textColor="#525252"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <EditText
@@ -102,14 +110,16 @@
                     android:gravity="center_horizontal"
                     android:inputType="number"
                     android:maxLength="3"
-                    android:textColor="#e91e63"
+                    android:textColor="#525252"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="dp"
-                    android:textColor="#e91e63"
+                    android:textColor="#525252"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
             </TableRow>
 
@@ -120,7 +130,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:text="Bottom left "
-                    android:textColor="#e91e63"
+                    android:textColor="#525252"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <EditText
@@ -131,14 +142,16 @@
                     android:gravity="center_horizontal"
                     android:inputType="number"
                     android:maxLength="3"
-                    android:textColor="#e91e63"
+                    android:textColor="#525252"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="dp"
-                    android:textColor="#e91e63"
+                    android:textColor="#525252"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
             </TableRow>
 
@@ -149,7 +162,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:text="bottom right "
-                    android:textColor="#e91e63"
+                    android:textColor="#525252"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <EditText
@@ -160,14 +174,16 @@
                     android:gravity="center_horizontal"
                     android:inputType="number"
                     android:maxLength="3"
-                    android:textColor="#e91e63"
+                    android:textColor="#525252"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="dp"
-                    android:textColor="#e91e63"
+                    android:textColor="#525252"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
             </TableRow>
         </TableLayout>

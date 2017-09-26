@@ -1,5 +1,6 @@
 package com.spencerstudios.buttondesigner;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -26,7 +27,6 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TableRow;
-import android.widget.Toast;
 
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback;
@@ -90,6 +90,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     private Switch[] switches = new Switch[switchIDs.length];
 
     private EditText etBtnText, etTextSize;
+
+    private final char qu = '"';
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,7 +180,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         shape.setShape(GradientDrawable.RECTANGLE);
 
-
         cbCenterColor.setChecked(hasCenterColor);
 
         cbCenterColor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -204,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 } else if (select == 3) {
                     fabs[select].setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(s)));
                     preview.setTextColor(Color.parseColor(s));
+                    fc[select] = s;
                 } else if (select == 4) {
                     fabs[select].setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(s)));
                     fc[select] = s;
@@ -237,8 +239,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         etCy.addTextChangedListener(this);
         etRad.addTextChangedListener(this);
 
-        tabs[0].setBackgroundResource(R.drawable.new_select);
-        tabs[0].setTextColor(Color.WHITE);
+        tabs[0].setBackgroundResource(R.drawable.test_case);
+        tabs[0].setTextColor(Color.parseColor("#424242"));
         setTabs(1, 2, 3);
         changeTab(tabSelected, 0);
 
@@ -250,16 +252,16 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     public void onClick(View v) {
 
         if (v == tabs[0]) {
-            tabs[0].setBackgroundResource(R.drawable.new_select);
-            tabs[0].setTextColor(Color.WHITE);
+            tabs[0].setBackgroundResource(R.drawable.test_case);
+            tabs[0].setTextColor(Color.parseColor("#424242"));
             setTabs(1, 2, 3);
             changeTab(tabSelected, 0);
             tabSelected = 0;
             scroll.fullScroll(ScrollView.FOCUS_UP);
         }
         if (v == tabs[1]) {
-            tabs[1].setBackgroundResource(R.drawable.new_select);
-            tabs[1].setTextColor(Color.WHITE);
+            tabs[1].setBackgroundResource(R.drawable.test_case);
+            tabs[1].setTextColor(Color.parseColor("#424242"));
             setTabs(0, 2, 3);
             changeTab(tabSelected, 1);
             tabSelected = 1;
@@ -267,16 +269,16 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         }
         if (v == tabs[2]) {
-            tabs[2].setBackgroundResource(R.drawable.new_select);
-            tabs[2].setTextColor(Color.WHITE);
+            tabs[2].setBackgroundResource(R.drawable.test_case);
+            tabs[2].setTextColor(Color.parseColor("#424242"));
             setTabs(0, 1, 3);
             changeTab(tabSelected, 2);
             tabSelected = 2;
             scroll.fullScroll(ScrollView.FOCUS_UP);
         }
         if (v == tabs[3]) {
-            tabs[3].setBackgroundResource(R.drawable.new_select);
-            tabs[3].setTextColor(Color.WHITE);
+            tabs[3].setBackgroundResource(R.drawable.test_case);
+            tabs[3].setTextColor(Color.parseColor("#424242"));
             setTabs(0, 1, 2);
             changeTab(tabSelected, 3);
             tabSelected = 3;
@@ -306,8 +308,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     private void setTabs(int... i) {
         for (int x : i) {
-            tabs[x].setBackgroundColor(Color.WHITE);
-            tabs[x].setTextColor(Color.BLACK);
+            tabs[x].setBackgroundResource(R.drawable.bg_selected);
+            tabs[x].setTextColor(Color.parseColor("#999999"));
         }
     }
 
@@ -445,36 +447,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         }
     }
 
-    private void constructXml() {
-
-        char q = '"';
-        StringBuilder builder = new StringBuilder();
-
-        builder.append(Xml.header.concat("\n"));
-        if (singleColor) {
-
-            //builder.append(Xml.solidColor.concat(c).concat(Xml.closing_tag));
-        } else {
-            builder.append(Xml.gradientHead);
-            if (twoColorsSelected) {
-
-                //builder.append("\n".concat(Xml.startColor.concat(s).concat("\n").concat(Xml.endColor).concat(e)));
-            } else {
-                //builder.append("\n".concat(Xml.startColor.concat(s).concat("\n").concat(Xml.centerColor.concat(c).concat("\n").concat(Xml.endColor.concat(e)))));
-            }
-
-        }
-
-        if (hasBorder) {
-        }
-
-        builder.append(Xml.final_closing_tag);
-
-        //Intent intent = new Intent(MainActivity.this, GenerateDrawableXMLActivity.class);
-        //intent.putExtra("xml", builder.toString());
-        //startActivity(intent);
-    }
-
     private void setButtonSize() {
 
         int iw = validateEdits(btnWidth);
@@ -533,14 +505,62 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_done)
-            Toast.makeText(MainActivity.this, "pressed!", Toast.LENGTH_SHORT).show();
+        if (item.getItemId() == R.id.action_done) constructXml();
         return super.onOptionsItemSelected(item);
     }
 
+    private void constructXml() {
+
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(Xml.header.concat("\n"));
+
+        if (!useGradient) {
+            builder.append(Xml.solidColor.concat(form(fc[0])).concat(Xml.closing_tag));
+        } else {
+            builder.append(Xml.gradientHead);
+            if (!hasCenterColor) {
+                builder.append("\n".concat(Xml.startColor.concat(form(fc[0])).concat("\n").concat(Xml.endColor).concat(form(fc[1]))));
+            } else {
+                builder.append("\n".concat(Xml.startColor.concat(form(fc[0])).concat("\n").concat(Xml.centerColor.concat(form(fc[1])).concat("\n").concat(Xml.endColor.concat(form(fc[2]))))));
+            }
+            if (!switchRadial.isChecked()) {
+                String angle = angleSpinner.getSelectedItem().toString();
+                angle = angle.substring(0, (angle.length() - 2));
+                builder.append("\t\tandroid:angle=".concat(form(angle).concat("\n")));
+            } else {
+                builder.append("\t\tandroid:centerX=" + form(String.valueOf(validateEdits(etCx))) + "%\n");
+                builder.append("\t\tandroid:centerY=" + form(String.valueOf(validateEdits(etCy))) + "%\n");
+                builder.append("\t\tandroid:gradientRadius=" + form(String.valueOf(validateEdits(etRad))) + "dp" + Xml.closing_tag + "\n\n");
+            }
+
+        }
+        if (etBorderWidth.getText().toString().length() > 0) {
+            builder.append("\t<stroke\n");
+            builder.append("\t\tandroid:width=" + form(String.valueOf(validateEdits(etBorderWidth))) + "dp\n");
+            builder.append("\t\tandroid:color=" + form(fc[3]) + Xml.closing_tag + "\n\n");
+        }
+
+        if (switches[0].isChecked()) {
+
+            builder.append("\t<corners");
+            builder.append("\t\tandroid:bottomLeftRadius=" + form(String.valueOf(validateEdits(etCorners[3]))) + "dp\n");
+            builder.append("\t\tandroid:bottomRightRadius=" + form(String.valueOf(validateEdits(etCorners[4]))) + "dp\n");
+        }
+
+
+        builder.append(Xml.final_closing_tag);
+
+        Intent intent = new Intent(MainActivity.this, GenerateDrawableXMLActivity.class);
+        intent.putExtra("xml", builder.toString());
+        startActivity(intent);
+    }
+
+    private String form(String string) {
+        return qu + string + qu;
+    }
 }
 
 
