@@ -505,13 +505,21 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_done) constructXml();
+        if (item.getItemId() == R.id.action_done) {
+
+            Intent intent = new Intent(MainActivity.this, GenerateDrawableXMLActivity.class);
+            intent.putExtra("xml", constructXml());
+            intent.putExtra("button", buildButtonXml());
+            startActivity(intent);
+
+        }
         return super.onOptionsItemSelected(item);
     }
 
-    private void constructXml() {
+    private String constructXml() {
 
         StringBuilder builder = new StringBuilder();
 
@@ -521,46 +529,97 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             builder.append(Xml.solidColor.concat(form(fc[0])).concat(Xml.closing_tag));
         } else {
             builder.append(Xml.gradientHead);
-            if (!hasCenterColor) {
-                builder.append("\n".concat(Xml.startColor.concat(form(fc[0])).concat("\n").concat(Xml.endColor).concat(form(fc[1]))));
-            } else {
-                builder.append("\n".concat(Xml.startColor.concat(form(fc[0])).concat("\n").concat(Xml.centerColor.concat(form(fc[1])).concat("\n").concat(Xml.endColor.concat(form(fc[2]))))));
-            }
+
+            builder.append("\n\t\tandroid:startColor=\"" + fc[0] + "\"\n");
+            if (hasCenterColor) builder.append("\t\tandroid:centerColor=\"" + fc[2] + "\"\n");
+            builder.append("\t\tandroid:endColor=\"" + fc[1] + "\"\n");
+
             if (!switchRadial.isChecked()) {
+                builder.append("\t\tandroid:type=\"linear\"\n");
                 String angle = angleSpinner.getSelectedItem().toString();
-                angle = angle.substring(0, (angle.length() - 2));
-                builder.append("\t\tandroid:angle=".concat(form(angle).concat("\n")));
+                angle = angle.substring(0, (angle.length() - 8));
+                builder.append("\t\tandroid:angle=".concat(form(angle)) + Xml.closing_tag);
             } else {
-                builder.append("\t\tandroid:centerX=" + form(String.valueOf(validateEdits(etCx))) + "%\n");
-                builder.append("\t\tandroid:centerY=" + form(String.valueOf(validateEdits(etCy))) + "%\n");
-                builder.append("\t\tandroid:gradientRadius=" + form(String.valueOf(validateEdits(etRad))) + "dp" + Xml.closing_tag + "\n\n");
+                builder.append("\t\tandroid:type=\"radial\"\n");
+                String scx = String.valueOf(validateEdits(etCx)).concat("%");
+                String scy = String.valueOf(validateEdits(etCy)).concat("%");
+                String srad = String.valueOf(validateEdits(etRad)).concat("dp");
+
+
+                builder.append("\t\tandroid:centerX=" + form(scx) + "\n");
+                builder.append("\t\tandroid:centerY=" + form(scy) + "\n");
+                builder.append("\t\tandroid:gradientRadius=" + form(srad) + Xml.closing_tag);
             }
 
         }
-        if (etBorderWidth.getText().toString().length() > 0) {
+        if (etBorderWidth.getText().
+
+                toString().
+
+                length() > 0)
+
+        {
             builder.append("\t<stroke\n");
-            builder.append("\t\tandroid:width=" + form(String.valueOf(validateEdits(etBorderWidth))) + "dp\n");
-            builder.append("\t\tandroid:color=" + form(fc[3]) + Xml.closing_tag + "\n\n");
+            String sw = String.valueOf(validateEdits(etBorderWidth)).concat("dp");
+            builder.append("\t\tandroid:width=" + form(sw) + "\n");
+            builder.append("\t\tandroid:color=" + form(fc[4].toUpperCase()) + Xml.closing_tag);
         }
+
 
         if (switches[0].isChecked()) {
+            int[] cnr = {
+                    validateEdits(etCorners[1]),
+                    validateEdits(etCorners[2]),
+                    validateEdits(etCorners[3]),
+                    validateEdits(etCorners[4])};
+            int t = 0;
+            for (int i : cnr) t += i;
 
-            builder.append("\t<corners");
-            builder.append("\t\tandroid:bottomLeftRadius=" + form(String.valueOf(validateEdits(etCorners[3]))) + "dp\n");
-            builder.append("\t\tandroid:bottomRightRadius=" + form(String.valueOf(validateEdits(etCorners[4]))) + "dp\n");
+            if (t > 0) {
+                builder.append("\t<corners\n");
+
+                builder.append("\t\tandroid:topRightRadius=\"" + cnr[1] + "dp\"\n");
+                builder.append("\t\tandroid:bottomLeftRadius=\"" + cnr[2] + "dp\"\n");
+                builder.append("\t\tandroid:bottomRightRadius=\"" + cnr[3] + "dp\"" + Xml.closing_tag);
+            }
+        } else
+
+        {
+            if (validateEdits(etCorners[0]) > 0) {
+                String ac = String.valueOf(validateEdits(etCorners[0])).concat("dp\"");
+                builder.append("\t<corners\n\t\tandroid:radius=\"" + ac + Xml.closing_tag);
+
+            }
         }
-
-
         builder.append(Xml.final_closing_tag);
 
-        Intent intent = new Intent(MainActivity.this, GenerateDrawableXMLActivity.class);
-        intent.putExtra("xml", builder.toString());
-        startActivity(intent);
+        return builder.toString();
+    }
+
+    private String buildButtonXml() {
+        StringBuilder btnBuild = new StringBuilder();
+
+        btnBuild.append("\t<Button\n\t\tandroid:id=\"@+id/button\"\n");
+        if (switches[2].isChecked()) btnBuild.append("\t\tandroid:layout_width=\"wrap_content\"\n");
+        else btnBuild.append("\t\tandroid:layout_width=\"" + validateEdits(btnHeight) + "dp\"\n");
+        if (switches[1].isChecked())
+            btnBuild.append("\t\tandroid:layout_height=\"wrap_content\"\n");
+        else btnBuild.append("\t\tandroid:layout_height=\"" + validateEdits(btnWidth) + "dp\"\n");
+        btnBuild.append("\t\tandroid:background=\"@drawable/button_background\"\n");
+        if (etBtnText.length() > 0)
+            btnBuild.append("\t\tandroid:text=\"" + etBtnText.getText().toString() + "\"\n");
+        if (validateEdits(etTextSize) != 0)
+            btnBuild.append("\t\tandroid:textSize=\"" + validateEdits(etTextSize) + "sp\"\n");
+        if (switches[3].isChecked()) btnBuild.append("\t\tandroid:textAllCaps=\"true\"\n");
+        btnBuild.append("\t\tandroid:textColor=\"" + fc[3] + "\"" + Xml.closing_tag);
+
+        return btnBuild.toString();
     }
 
     private String form(String string) {
         return qu + string + qu;
     }
+
 }
 
 
