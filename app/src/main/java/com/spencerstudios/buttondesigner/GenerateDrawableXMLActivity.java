@@ -98,12 +98,11 @@ public class GenerateDrawableXMLActivity extends AppCompatActivity {
         Intent get = getIntent();
         xml = drawableHighLightingFactory(get.getStringExtra("xml")).toString();
         button = buttonHighlightingFactory(get.getStringExtra("button")).toString();
-        String body = xml + "\n\n" + button;
+        String body = xml + "\n\n-----------\n\n" + button;
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
-        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "xml");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "button designer xml");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, body);
         startActivity(Intent.createChooser(sharingIntent, "Share via... "));
-
     }
 }

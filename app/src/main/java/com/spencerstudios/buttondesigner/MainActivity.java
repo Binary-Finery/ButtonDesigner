@@ -529,14 +529,18 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         builder.append(Xml.header.concat("\n"));
 
         if (!useGradient) {
-            builder.append(Xml.solidColor.concat(form(fc[0])).concat(Xml.closing_tag));
+            builder.append("\t<solid\n\t\tandroid:color=\"" + fc[0] + "\"" + Xml.closing_tag);
         } else {
-            builder.append(Xml.gradientHead);
+            builder.append("\t<gradient");
 
-            builder.append("\n\t\tandroid:startColor=\"" + fc[0] + "\"\n");
-            if (hasCenterColor)
+            if (hasCenterColor) {
+                builder.append("\n\t\tandroid:startColor=\"" + fc[0] + "\"\n");
                 builder.append("\t\tandroid:centerColor=\"" + fc[1] + "\"\n");
-            builder.append("\t\tandroid:endColor=\"" + fc[2] + "\"\n");
+                builder.append("\t\tandroid:endColor=\"" + fc[2] + "\"\n");
+            } else {
+                builder.append("\n\t\tandroid:startColor=\"" + fc[0] + "\"\n");
+                builder.append("\t\tandroid:endColor=\"" + fc[1] + "\"\n");
+            }
 
             if (!switchRadial.isChecked()) {
                 builder.append("\t\tandroid:type=\"linear\"\n");
