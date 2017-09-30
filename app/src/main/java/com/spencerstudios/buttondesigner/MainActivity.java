@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     private int select = 0;
     private TableRow rowOrien, rowCX, rowCY, rowIncludeCenterColor, rowRadius;
-    private CheckBox cbCenterColor;
+    private Switch cbCenterColor;
     private Switch switchGradient, switchRadial, switchCorners;
     private ColorPicker cp;
 
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     private Button preview;
     private FloatingActionButton[] fabs = new FloatingActionButton[fabIDs.length];
-    private String[] fc = {"#F44336", "#4CAF50", "#3F51B5", "#FFFFFF", "#e91e63"};
+    private String[] fc = {"#F44336", "#FFFFFF", "#000000", "#000000", "#000000"};
 
     private int[] layoutIDs = {R.id.color_layout, R.id.border_layout, R.id.corners_layout, R.id.size_layout};
     private LinearLayout[] linearLayouts = new LinearLayout[layoutIDs.length];
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         etCy = (EditText) findViewById(R.id.et_cy);
         etRad = (EditText) findViewById(R.id.et_rad);
 
-        cbCenterColor = (CheckBox) findViewById(R.id.cb_include_center);
+        cbCenterColor = (Switch) findViewById(R.id.cb_include_center);
         switchGradient = (Switch) findViewById(R.id.switch_gradient);
         switchRadial = (Switch) findViewById(R.id.switch_type);
 
@@ -163,6 +163,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         angleSpinner = (Spinner) findViewById(R.id.spinner_angle);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, angleList);
         angleSpinner.setAdapter(adapter);
+        angleSpinner.setSelection(1);
         angleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -454,6 +455,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         preview.setLayoutParams(new LinearLayout.LayoutParams(switches[1].isChecked() ? LinearLayout.LayoutParams.WRAP_CONTENT : convertDpToPx(ih), switches[2].isChecked() ? LinearLayout.LayoutParams.WRAP_CONTENT : convertDpToPx(iw)));
         String txt = etBtnText.getText().toString();
+
         preview.setText(txt);
 
         String ts = etTextSize.getText().toString();
@@ -488,9 +490,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         cbCenterColor.setChecked(hasCenterColor);
         btnWidth.setText(BTN_DIMS);
         btnHeight.setText(BTN_DIMS);
-        etTextSize.setText("16");
         etBtnText.setText("Preview");
         etBorderWidth.setText("1");
+        preview.setTextColor(Color.parseColor(fc[3]));
+        etCorners[0].setText("8");
 
         displayMechanics();
         setButtonColors();
@@ -531,8 +534,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             builder.append(Xml.gradientHead);
 
             builder.append("\n\t\tandroid:startColor=\"" + fc[0] + "\"\n");
-            if (hasCenterColor) builder.append("\t\tandroid:centerColor=\"" + fc[2] + "\"\n");
-            builder.append("\t\tandroid:endColor=\"" + fc[1] + "\"\n");
+            if (hasCenterColor)
+                builder.append("\t\tandroid:centerColor=\"" + fc[1] + "\"\n");
+            builder.append("\t\tandroid:endColor=\"" + fc[2] + "\"\n");
 
             if (!switchRadial.isChecked()) {
                 builder.append("\t\tandroid:type=\"linear\"\n");
@@ -577,7 +581,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
             if (t > 0) {
                 builder.append("\t<corners\n");
-
+                builder.append("\t\tandroid:topLeftRadius=\"" + cnr[0] + "dp\"\n");
                 builder.append("\t\tandroid:topRightRadius=\"" + cnr[1] + "dp\"\n");
                 builder.append("\t\tandroid:bottomLeftRadius=\"" + cnr[2] + "dp\"\n");
                 builder.append("\t\tandroid:bottomRightRadius=\"" + cnr[3] + "dp\"" + Xml.closing_tag);
@@ -600,17 +604,18 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         StringBuilder btnBuild = new StringBuilder();
 
         btnBuild.append("\t<Button\n\t\tandroid:id=\"@+id/button\"\n");
-        if (switches[2].isChecked()) btnBuild.append("\t\tandroid:layout_width=\"wrap_content\"\n");
-        else btnBuild.append("\t\tandroid:layout_width=\"" + validateEdits(btnHeight) + "dp\"\n");
-        if (switches[1].isChecked())
+        if (switches[1].isChecked()) btnBuild.append("\t\tandroid:layout_width=\"wrap_content\"\n");
+        else btnBuild.append("\t\tandroid:layout_width=\"" + validateEdits(btnWidth) + "dp\"\n");
+        if (switches[2].isChecked())
             btnBuild.append("\t\tandroid:layout_height=\"wrap_content\"\n");
-        else btnBuild.append("\t\tandroid:layout_height=\"" + validateEdits(btnWidth) + "dp\"\n");
+        else btnBuild.append("\t\tandroid:layout_height=\"" + validateEdits(btnHeight) + "dp\"\n");
         btnBuild.append("\t\tandroid:background=\"@drawable/button_background\"\n");
         if (etBtnText.length() > 0)
             btnBuild.append("\t\tandroid:text=\"" + etBtnText.getText().toString() + "\"\n");
         if (validateEdits(etTextSize) != 0)
             btnBuild.append("\t\tandroid:textSize=\"" + validateEdits(etTextSize) + "sp\"\n");
         if (switches[3].isChecked()) btnBuild.append("\t\tandroid:textAllCaps=\"true\"\n");
+        else btnBuild.append("\t\tandroid:textAllCaps=\"false\"\n");
         btnBuild.append("\t\tandroid:textColor=\"" + fc[3] + "\"" + Xml.closing_tag);
 
         return btnBuild.toString();

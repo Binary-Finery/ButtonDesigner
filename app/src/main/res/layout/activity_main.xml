@@ -26,15 +26,6 @@
             android:textColor="#ffffff"
             android:textSize="22dp" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Test"
-            android:textAllCaps="false"
-            android:textColor="#ffffff"
-            android:background="@drawable/test_background"
-            android:textSize="22dp" />
-
     </LinearLayout>
 
     <LinearLayout

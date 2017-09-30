@@ -11,7 +11,6 @@ import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,6 +21,7 @@ public class GenerateDrawableXMLActivity extends AppCompatActivity {
     private String[] format = {"(\"([^\"]*)\")", "\"", "gradient\n", "stroke\n", "corners\n", "solid\n", "\t\tandroid"};
     private Pattern[] patterns = new Pattern[format.length];
     private Matcher[] matchers = new Matcher[format.length];
+    private String xml, button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,7 @@ public class GenerateDrawableXMLActivity extends AppCompatActivity {
         TextView tvBtn = (TextView) findViewById(R.id.tv_btn);
 
         Intent get = getIntent();
+
         tv.setText(drawableHighLightingFactory(get.getStringExtra("xml")));
         tvBtn.setText(buttonHighlightingFactory(get.getStringExtra("button")));
     }
@@ -88,8 +89,21 @@ public class GenerateDrawableXMLActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_share)
-            Toast.makeText(getApplicationContext(), "Shared", Toast.LENGTH_SHORT).show();
+            shareXML();
         else finish();
         return super.onOptionsItemSelected(item);
+    }
+
+    private void shareXML() {
+        Intent get = getIntent();
+        xml = drawableHighLightingFactory(get.getStringExtra("xml")).toString();
+        button = buttonHighlightingFactory(get.getStringExtra("button")).toString();
+        String body = xml + "\n\n" + button;
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "xml");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, body);
+        startActivity(Intent.createChooser(sharingIntent, "Share via... "));
+
     }
 }
