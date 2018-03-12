@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Button Designer</string>
+    <string name="tab_text_1">Color</string>
+    <string name="tab_text_2">Size</string>
+    <string name="tab_text_3">Border</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="tab_text_4">Corners</string>
+    <string name="tab_text_5">Text</string>
+    <string name="dp">dp</string>
+    <string name="title_activity_launcher">Button Designer</string>
+    <string name="border_width">Width</string>
+    <string name="border_color">Color</string>
+
 </resources>

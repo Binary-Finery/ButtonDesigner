@@ -10,19 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".GenerateDrawableXMLActivity"
             android:configChanges="screenSize|orientation"
-            android:windowSoftInputMode="stateAlwaysHidden">
+            android:label="XML" />
+        <activity
+            android:name=".LauncherActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_launcher"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".GenerateDrawableXMLActivity"
-            android:configChanges="screenSize|orientation"
-            android:label="XML">
-
         </activity>
     </application>
 

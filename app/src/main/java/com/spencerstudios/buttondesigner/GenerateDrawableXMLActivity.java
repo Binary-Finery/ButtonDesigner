@@ -36,10 +36,8 @@ public class GenerateDrawableXMLActivity extends AppCompatActivity {
         TextView tv = (TextView) findViewById(R.id.tv_xml);
         TextView tvBtn = (TextView) findViewById(R.id.tv_btn);
 
-        Intent get = getIntent();
-
-        tv.setText(drawableHighLightingFactory(get.getStringExtra("xml")));
-        tvBtn.setText(buttonHighlightingFactory(get.getStringExtra("button")));
+        tv.setText(drawableHighLightingFactory(drawableXml()));
+        tvBtn.setText(buttonHighlightingFactory(buttonXml()));
     }
 
     private SpannableStringBuilder drawableHighLightingFactory(String in) {
@@ -88,21 +86,117 @@ public class GenerateDrawableXMLActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_share)
-            shareXML();
+        if (item.getItemId() == R.id.action_share) shareXML();
         else finish();
         return super.onOptionsItemSelected(item);
     }
 
     private void shareXML() {
-        Intent get = getIntent();
-        xml = drawableHighLightingFactory(get.getStringExtra("xml")).toString();
-        button = buttonHighlightingFactory(get.getStringExtra("button")).toString();
+        xml = String.valueOf(drawableHighLightingFactory(drawableXml()));
+        button = String.valueOf(buttonHighlightingFactory(buttonXml()));
         String body = xml + "\n\n-----------\n\n" + button;
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "button designer xml");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, body);
         startActivity(Intent.createChooser(sharingIntent, "Share via... "));
+    }
+
+    private String drawableXml() {
+
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(Xml.header.concat("\n"));
+
+        if (!Utils.getBooleanPrefs(this, "use_gradient")) {
+            builder.append("\t<solid\n\t\tandroid:color=\"" + Utils.getColorPrefs(this, "color1") + "\"" + Xml.closing_tag);
+        } else {
+            builder.append("\t<gradient");
+
+            if (Utils.getBooleanPrefs(this, "use_three_colors")) {
+                builder.append("\n\t\tandroid:startColor=\"" + Utils.getColorPrefs(this, "color1") + "\"\n");
+                builder.append("\t\tandroid:centerColor=\"" + Utils.getColorPrefs(this, "color2") + "\"\n");
+                builder.append("\t\tandroid:endColor=\"" + Utils.getColorPrefs(this, "color3") + "\"\n");
+            } else {
+                builder.append("\n\t\tandroid:startColor=\"" + Utils.getColorPrefs(this, "color1") + "\"\n");
+                builder.append("\t\tandroid:endColor=\"" + Utils.getColorPrefs(this, "color2") + "\"\n");
+            }
+
+            if (!Utils.getBooleanPrefs(this, "use_radial")) {
+                builder.append("\t\tandroid:type=\"linear\"\n");
+                int angel = Utils.getDimensionPrefs(this, "angel") * 45;
+                builder.append("\t\tandroid:angle=\"" + angel + "\"" + Xml.closing_tag);
+            } else {
+                builder.append("\t\tandroid:type=\"radial\"\n");
+                String scx = String.valueOf(Utils.getDimensionPrefs(this, "center_x")).concat("%");
+                String scy = String.valueOf(Utils.getDimensionPrefs(this, "center_y")).concat("%");
+                String srad = String.valueOf(Utils.getDimensionPrefs(this, "radius")).concat("dp");
+
+                builder.append("\t\tandroid:centerX=\"" + scx + "\"\n");
+                builder.append("\t\tandroid:centerY=\"" + scy + "\"\n");
+                builder.append("\t\tandroid:gradientRadius=\"" + srad + "\"" + Xml.closing_tag);
+            }
+        }
+
+        int borderWidth = Utils.getDimensionPrefs(this, "stroke_width");
+        if (borderWidth > 0) {
+            builder.append("\t<stroke\n");
+            String sw = String.valueOf(borderWidth).concat("dp");
+            builder.append("\t\tandroid:width=\"" + sw + "\"\n");
+            builder.append("\t\tandroid:color=\"" + Utils.getColorPrefs(this, "stroke_color") + "\"" + Xml.closing_tag);
+        }
+
+        if (Utils.getBooleanPrefs(this, "switch_corner")) {
+
+            builder.append("\t<corners\n");
+            builder.append("\t\tandroid:topLeftRadius=\"" + Utils.getDimensionPrefs(this, "corner_tl") + "dp\"\n");
+            builder.append("\t\tandroid:topRightRadius=\"" + Utils.getDimensionPrefs(this, "corner_tr") + "dp\"\n");
+            builder.append("\t\tandroid:bottomLeftRadius=\"" + Utils.getDimensionPrefs(this, "corner_bl") + "dp\"\n");
+            builder.append("\t\tandroid:bottomRightRadius=\"" + Utils.getDimensionPrefs(this, "corner_br") + "dp\"" + Xml.closing_tag);
+
+        } else {
+            if (Utils.getDimensionPrefs(this, "corner_all") > 0) {
+                String ac = String.valueOf(Utils.getDimensionPrefs(this, "corner_all")).concat("dp\"");
+                builder.append("\t<corners\n\t\tandroid:radius=\"" + ac + Xml.closing_tag);
+
+            }
+        }
+        builder.append(Xml.final_closing_tag);
+
+        return builder.toString();
+    }
+
+    private String buttonXml() {
+        StringBuilder btnBuild = new StringBuilder();
+
+        btnBuild.append("\t<Button\n\t\tandroid:id=\"@+id/button\"\n");
+        if (Utils.getBooleanPrefs(this, "switch_width")) {
+            btnBuild.append("\t\tandroid:layout_width=\"wrap_content\"\n");
+        } else {
+            btnBuild.append("\t\tandroid:layout_width=\"" + Utils.getDimensionPrefs(this, "size_width") + "dp\"\n");
+        }
+        if (Utils.getBooleanPrefs(this, "switch_height")) {
+            btnBuild.append("\t\tandroid:layout_height=\"wrap_content\"\n");
+        } else {
+            btnBuild.append("\t\tandroid:layout_height=\"" + Utils.getDimensionPrefs(this, "size_height") + "dp\"\n");
+        }
+        btnBuild.append("\t\tandroid:background=\"@drawable/button_background\"\n");
+        if (Utils.getColorPrefs(this, "button_text").length() > 0) {
+            btnBuild.append("\t\tandroid:text=\"" + Utils.getColorPrefs(this, "button_text") + "\"\n");
+        }
+        if (Utils.getDimensionPrefs(this, "text_size") > 0) {
+            btnBuild.append("\t\tandroid:textSize=\"" + Utils.getDimensionPrefs(this, "text_size") + "sp\"\n");
+        }
+        if (!Utils.getBooleanPrefs(this, "all_caps")) {
+            btnBuild.append("\t\tandroid:textAllCaps=\"false\"\n");
+        }
+        if (!Utils.getColorPrefs(this, "typeface").equals(Constants.FONT_FAMILIES[0])) {
+            String tf = Utils.getColorPrefs(this, "typeface");
+            btnBuild.append("\t\tandroid:fontFamily=\"" + tf + "\"\n");
+        }
+
+        btnBuild.append("\t\tandroid:textColor=\"" + Utils.getColorPrefs(this, "text_color") + "\"" + Xml.closing_tag);
+
+        return btnBuild.toString();
     }
 }
