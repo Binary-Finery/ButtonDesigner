@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/et_button_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:hint="button text..."
+            android:textColor="@color/textColor" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="Text Size"
+            android:textColor="@color/textColor" />
+
+        <android.support.v7.widget.AppCompatSeekBar
+            android:id="@+id/seek_text_size"
+            android:max="50"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_text_size_sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-smallcaps"
+            android:layout_gravity="end"
+            android:layout_marginEnd="16dp"
+            android:text="sp"
+            android:textColor="@color/textColor" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="Text Color"
+            android:textColor="@color/textColor" />
+
+        <Button
+            android:id="@+id/btn_text_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#424242" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="Typeface"
+            android:textColor="@color/textColor" />
+
+        <Button
+            android:id="@+id/btn_typeface"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:text="sans-serif-smallcaps"
+            android:fontFamily="sans-serif-smallcaps" />
+
+
+        <Switch
+            android:id="@+id/switch_all_caps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/textColor"
+            android:text="All Capitals"
+            android:fontFamily="sans-serif-smallcaps" />
+
+    </LinearLayout>
+
+</ScrollView>

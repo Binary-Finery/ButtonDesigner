@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Switch
+            android:id="@+id/switch_use_gradient"
+            android:textColor="@color/textColor"
+            android:fontFamily="sans-serif-smallcaps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Use gradient colors" />
+
+        <RadioGroup
+            android:id="@+id/radio_gradient_type"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/radio_radial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColor"
+                android:fontFamily="sans-serif-smallcaps"
+                android:text="Radial gradient" />
+
+            <RadioButton
+                android:id="@+id/radio_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColor"
+                android:fontFamily="sans-serif-smallcaps"
+                android:text="Linear gradient" />
+
+        </RadioGroup>
+
+
+        <LinearLayout
+            android:id="@+id/ll_angle_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_angle_title"
+                android:fontFamily="sans-serif-smallcaps"
+                android:text="Angle"
+                android:layout_marginTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.AppCompatSeekBar
+                android:id="@+id/seek_angle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="6" />
+
+            <TextView
+                android:id="@+id/tv_angle_degrees"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:fontFamily="sans-serif-smallcaps" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/radial_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-smallcaps"
+                android:textColor="@color/textColor"
+                android:text="Center x" />
+
+            <android.support.v7.widget.AppCompatSeekBar
+                android:id="@+id/seek_radial_center_x"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_center_x_dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:text="@string/dp"
+                android:textColor="@color/textColor" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:textColor="@color/textColor"
+                android:text="Center y" />
+
+            <android.support.v7.widget.AppCompatSeekBar
+                android:id="@+id/seek_radial_center_y"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_center_y_dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-smallcaps"
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp"
+                android:text="@string/dp"
+                android:textColor="@color/textColor" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:textColor="@color/textColor"
+                android:text="Radius" />
+
+            <android.support.v7.widget.AppCompatSeekBar
+                android:id="@+id/seek_radial_radius"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_radius"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-smallcaps"
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp"
+                android:text="@string/dp"
+                android:textColor="@color/textColor" />
+
+        </LinearLayout>
+
+        <Switch
+            android:id="@+id/switch_use_3_colors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="Use three colors"
+            android:textColor="@color/textColor" />
+
+        <Button
+            android:layout_marginTop="16dp"
+            android:id="@+id/btn_color_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#424242" />
+
+        <Button
+            android:layout_marginTop="16dp"
+            android:id="@+id/btn_color_two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#424242" />
+
+        <Button
+            android:layout_marginTop="16dp"
+            android:id="@+id/btn_color_three"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#424242" />
+
+    </LinearLayout>
+
+</ScrollView>
