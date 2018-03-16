@@ -11,5 +11,7 @@
     <string name="title_activity_launcher">Button Designer</string>
     <string name="border_width">Width</string>
     <string name="border_color">Color</string>
+    <string name="saved_activity">Saved Designs</string>
+    <string name="empty_list_text">You have no saved designs. Your saved designs will appear here</string>
 
 </resources>

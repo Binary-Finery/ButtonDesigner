@@ -15,6 +15,8 @@ import android.widget.TextView;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import spencerstudios.com.bungeelib.Bungee;
+
 public class GenerateDrawableXMLActivity extends AppCompatActivity {
 
     private String[] colors = {"#673ab7", "#673ab7", "#E91E63", "#E91E63", "#E91E63", "#E91E63", "#4caf50"};
@@ -33,8 +35,8 @@ public class GenerateDrawableXMLActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        TextView tv = (TextView) findViewById(R.id.tv_xml);
-        TextView tvBtn = (TextView) findViewById(R.id.tv_btn);
+        TextView tv = findViewById(R.id.tv_xml);
+        TextView tvBtn = findViewById(R.id.tv_btn);
 
         tv.setText(drawableHighLightingFactory(drawableXml()));
         tvBtn.setText(buttonHighlightingFactory(buttonXml()));
@@ -87,7 +89,10 @@ public class GenerateDrawableXMLActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_share) shareXML();
-        else finish();
+        else {
+            finish();
+            Bungee.split(this);
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -198,5 +203,11 @@ public class GenerateDrawableXMLActivity extends AppCompatActivity {
         btnBuild.append("\t\tandroid:textColor=\"" + Utils.getColorPrefs(this, "text_color") + "\"" + Xml.closing_tag);
 
         return btnBuild.toString();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Bungee.split(this);
     }
 }

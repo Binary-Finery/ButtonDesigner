@@ -22,13 +22,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import spencerstudios.com.bungeelib.Bungee;
 
 public class LauncherActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    private final GradientDrawable.Orientation[] ORIENTATION = Constants.GRADIENT_ORIENTATIONS();
     private Button button;
     private SharedPreferences prefs;
-    private Context ctx = this;
-    private final GradientDrawable.Orientation[] ORIENTATION = {GradientDrawable.Orientation.LEFT_RIGHT, GradientDrawable.Orientation.BL_TR, GradientDrawable.Orientation.BOTTOM_TOP, GradientDrawable.Orientation.BR_TL, GradientDrawable.Orientation.RIGHT_LEFT, GradientDrawable.Orientation.TR_BL, GradientDrawable.Orientation.TOP_BOTTOM};
+    private Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +47,8 @@ public class LauncherActivity extends AppCompatActivity implements SharedPrefere
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(this);
 
-        Configuration configuration = ctx.getResources().getConfiguration();
-        Utils.setDimensionPrefs(ctx, "screen_width_in_dp", configuration.screenWidthDp);
+        Configuration configuration = context.getResources().getConfiguration();
+        Utils.setDimensionPrefs(context, "screen_width_in_dp", configuration.screenWidthDp);
 
         if (prefs.getBoolean("initial_launch", true)) {
             Constants.DEFAULTS(this);
@@ -65,6 +68,111 @@ public class LauncherActivity extends AppCompatActivity implements SharedPrefere
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         applyButtonProperties();
+    }
+
+    private int convertDpToPx(int dp) {
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        return (int) ((dp * displayMetrics.density) + .5);
+    }
+
+    public void onBackPressed() {
+        prefs.unregisterOnSharedPreferenceChangeListener(this);
+        finishAffinity();
+        Bungee.inAndOut(context);
+    }
+
+    private void applyButtonProperties() {
+
+        GradientDrawable drawable = new GradientDrawable();
+
+        //set button corner radii...
+        if (Utils.getBooleanPrefs(context, "switch_corner")) {
+            drawable.setCornerRadii(new float[]{
+                    convertDpToPx(Utils.getDimensionPrefs(context, "corner_tl")), convertDpToPx(Utils.getDimensionPrefs(context, "corner_tl")), convertDpToPx(Utils.getDimensionPrefs(context, "corner_tr")), convertDpToPx(Utils.getDimensionPrefs(context, "corner_tr")), convertDpToPx(Utils.getDimensionPrefs(context, "corner_br")), convertDpToPx(Utils.getDimensionPrefs(context, "corner_br")), convertDpToPx(Utils.getDimensionPrefs(context, "corner_bl")), convertDpToPx(Utils.getDimensionPrefs(context, "corner_bl"))});
+        } else {
+            int globalCornerRadius = Utils.getDimensionPrefs(context, "corner_all");
+            drawable.setCornerRadii(new float[]{convertDpToPx(globalCornerRadius), convertDpToPx(globalCornerRadius), convertDpToPx(globalCornerRadius), convertDpToPx(globalCornerRadius), convertDpToPx(globalCornerRadius), convertDpToPx(globalCornerRadius), convertDpToPx(globalCornerRadius), convertDpToPx(globalCornerRadius)});
+        }
+
+        //set button border width and color...
+        int sw = Utils.getDimensionPrefs(this, "stroke_width");
+        drawable.setStroke(convertDpToPx(sw), Color.parseColor(Utils.getColorPrefs(context, "stroke_color")));
+
+        //set button width and height...
+        int w = Utils.getDimensionPrefs(context, "size_width"), h = Utils.getDimensionPrefs(context, "size_height");
+        button.setLayoutParams(new LinearLayout.LayoutParams(Utils.getBooleanPrefs(context, "switch_width") ? LinearLayout.LayoutParams.WRAP_CONTENT : convertDpToPx(w), Utils.getBooleanPrefs(context, "switch_height") ? LinearLayout.LayoutParams.WRAP_CONTENT : convertDpToPx(h)));
+
+        //set button text...
+        button.setAllCaps(Utils.getBooleanPrefs(context, "all_caps"));
+        button.setText(Utils.getColorPrefs(context, "button_text"));
+
+        //set button text size in sp...
+        button.setTextSize(TypedValue.COMPLEX_UNIT_SP, Utils.getDimensionPrefs(context, "text_size"));
+
+        //set text color..
+        button.setTextColor(Color.parseColor(Utils.getColorPrefs(context, "text_color")));
+
+        //set typeface
+        button.setTypeface(Typeface.create(Utils.getColorPrefs(context, "typeface"), Typeface.NORMAL));
+
+        //set button color(s) and gradient type...
+        boolean hasGradient = Utils.getBooleanPrefs(context, "use_gradient");
+        boolean isRadial = Utils.getBooleanPrefs(context, "use_radial");
+        boolean isThreeColors = Utils.getBooleanPrefs(context, "use_three_colors");
+
+        if (hasGradient) {
+
+            if (isRadial) {
+
+                drawable.setGradientType(GradientDrawable.RADIAL_GRADIENT);
+                drawable.setGradientCenter((float) Utils.getDimensionPrefs(context, "center_x") / 100, (float) Utils.getDimensionPrefs(context, "center_y") / 100);
+                drawable.setGradientRadius(convertDpToPx(Utils.getDimensionPrefs(context, "radius")));
+
+                if (isThreeColors) {
+                    int[] colors = {Color.parseColor(Utils.getColorPrefs(context, "color1")), Color.parseColor(Utils.getColorPrefs(context, "color2")), Color.parseColor(Utils.getColorPrefs(context, "color3"))};
+                    drawable.setColors(colors);
+                } else {
+                    int[] colors = {Color.parseColor(Utils.getColorPrefs(context, "color1")), Color.parseColor(Utils.getColorPrefs(context, "color2"))};
+                    drawable.setColors(colors);
+                }
+            } else {
+                drawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);
+                drawable.setOrientation(ORIENTATION[Utils.getDimensionPrefs(context, "angel")]);
+                if (isThreeColors) {
+                    int[] colors = {Color.parseColor(Utils.getColorPrefs(context, "color1")), Color.parseColor(Utils.getColorPrefs(context, "color2")), Color.parseColor(Utils.getColorPrefs(context, "color3"))};
+                    drawable.setColors(colors);
+                } else {
+                    int[] colors = {Color.parseColor(Utils.getColorPrefs(context, "color1")), Color.parseColor(Utils.getColorPrefs(context, "color2"))};
+                    drawable.setColors(colors);
+                }
+            }
+        } else drawable.setColor(Color.parseColor(Utils.getColorPrefs(context, "color1")));
+        button.setBackground(drawable);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.action_done) {
+            startActivity(new Intent(context, GenerateDrawableXMLActivity.class));
+            Bungee.split(this);
+        }
+        if (item.getItemId() == R.id.action_save) {
+            Utils.saveButton(context);
+            Toast.makeText(context, "Button designed saved", Toast.LENGTH_LONG).show();
+        }
+
+        if (item.getItemId() == R.id.action_saved_list) {
+            startActivity(new Intent(context, SavedDesignsActivity.class));
+            Bungee.split(context);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -97,96 +205,4 @@ public class LauncherActivity extends AppCompatActivity implements SharedPrefere
         }
     }
 
-    private int convertDpToPx(int dp) {
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        return (int) ((dp * displayMetrics.density) + .5);
-    }
-
-    public void onBackPressed() {
-        prefs.unregisterOnSharedPreferenceChangeListener(this);
-        finishAffinity();
-    }
-
-    private void applyButtonProperties() {
-
-        GradientDrawable drawable = new GradientDrawable();
-
-        //set button corner radii...
-        if (Utils.getBooleanPrefs(ctx, "switch_corner")) {
-            drawable.setCornerRadii(new float[]{
-                    convertDpToPx(Utils.getDimensionPrefs(ctx, "corner_tl")), convertDpToPx(Utils.getDimensionPrefs(ctx, "corner_tl")), convertDpToPx(Utils.getDimensionPrefs(ctx, "corner_tr")), convertDpToPx(Utils.getDimensionPrefs(ctx, "corner_tr")), convertDpToPx(Utils.getDimensionPrefs(ctx, "corner_br")), convertDpToPx(Utils.getDimensionPrefs(ctx, "corner_br")), convertDpToPx(Utils.getDimensionPrefs(ctx, "corner_bl")), convertDpToPx(Utils.getDimensionPrefs(ctx, "corner_bl"))});
-        } else {
-            int globalCornerRadius = Utils.getDimensionPrefs(ctx, "corner_all");
-            drawable.setCornerRadii(new float[]{convertDpToPx(globalCornerRadius), convertDpToPx(globalCornerRadius), convertDpToPx(globalCornerRadius), convertDpToPx(globalCornerRadius), convertDpToPx(globalCornerRadius), convertDpToPx(globalCornerRadius), convertDpToPx(globalCornerRadius), convertDpToPx(globalCornerRadius)});
-        }
-
-        //set button border width and color...
-        int sw = Utils.getDimensionPrefs(ctx, "stroke_width");
-        drawable.setStroke(convertDpToPx(sw), Color.parseColor(Utils.getColorPrefs(ctx, "stroke_color")));
-
-        //set button width and height...
-        int w = Utils.getDimensionPrefs(ctx, "size_width"), h = Utils.getDimensionPrefs(ctx, "size_height");
-        button.setLayoutParams(new LinearLayout.LayoutParams(Utils.getBooleanPrefs(ctx, "switch_width") ? LinearLayout.LayoutParams.WRAP_CONTENT : convertDpToPx(w), Utils.getBooleanPrefs(ctx, "switch_height") ? LinearLayout.LayoutParams.WRAP_CONTENT : convertDpToPx(h)));
-
-        //set button text...
-        button.setAllCaps(Utils.getBooleanPrefs(ctx, "all_caps"));
-        button.setText(Utils.getColorPrefs(ctx, "button_text"));
-
-        //set button text size in sp...
-        button.setTextSize(TypedValue.COMPLEX_UNIT_SP, Utils.getDimensionPrefs(ctx, "text_size"));
-
-        //set text color..
-        button.setTextColor(Color.parseColor(Utils.getColorPrefs(ctx, "text_color")));
-
-        //set typeface
-        button.setTypeface(Typeface.create(Utils.getColorPrefs(ctx, "typeface"), Typeface.NORMAL));
-
-        //set button color(s) and gradient type...
-        boolean hasGradient = Utils.getBooleanPrefs(ctx, "use_gradient");
-        boolean isRadial = Utils.getBooleanPrefs(ctx, "use_radial");
-        boolean isThreeColors = Utils.getBooleanPrefs(ctx, "use_three_colors");
-
-        if (hasGradient) {
-
-            if (isRadial) {
-
-                drawable.setGradientType(GradientDrawable.RADIAL_GRADIENT);
-                drawable.setGradientCenter((float) Utils.getDimensionPrefs(ctx, "center_x") / 100, (float) Utils.getDimensionPrefs(ctx, "center_y") / 100);
-                drawable.setGradientRadius(convertDpToPx(Utils.getDimensionPrefs(ctx, "radius")));
-
-                if (isThreeColors) {
-                    int[] colors = {Color.parseColor(Utils.getColorPrefs(ctx, "color1")), Color.parseColor(Utils.getColorPrefs(ctx, "color2")), Color.parseColor(Utils.getColorPrefs(ctx, "color3"))};
-                    drawable.setColors(colors);
-                } else {
-                    int[] colors = {Color.parseColor(Utils.getColorPrefs(ctx, "color1")), Color.parseColor(Utils.getColorPrefs(ctx, "color2"))};
-                    drawable.setColors(colors);
-                }
-            } else {
-                drawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);
-                drawable.setOrientation(ORIENTATION[Utils.getDimensionPrefs(ctx, "angel")]);
-                if (isThreeColors) {
-                    int[] colors = {Color.parseColor(Utils.getColorPrefs(ctx, "color1")), Color.parseColor(Utils.getColorPrefs(ctx, "color2")), Color.parseColor(Utils.getColorPrefs(ctx, "color3"))};
-                    drawable.setColors(colors);
-                } else {
-                    int[] colors = {Color.parseColor(Utils.getColorPrefs(ctx, "color1")), Color.parseColor(Utils.getColorPrefs(ctx, "color2"))};
-                    drawable.setColors(colors);
-                }
-            }
-        } else drawable.setColor(Color.parseColor(Utils.getColorPrefs(ctx, "color1")));
-        button.setBackground(drawable);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_done) {
-            startActivity(new Intent(ctx, GenerateDrawableXMLActivity.class));
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

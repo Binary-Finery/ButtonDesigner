@@ -1,6 +1,7 @@
 package com.spencerstudios.buttondesigner;
 
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
 
 class Constants {
 
@@ -17,6 +18,17 @@ class Constants {
             "serif",
             "serif-monospace"
     };
+
+    static GradientDrawable.Orientation[] GRADIENT_ORIENTATIONS() {
+        return new GradientDrawable.Orientation[]{
+                GradientDrawable.Orientation.LEFT_RIGHT,
+                GradientDrawable.Orientation.BL_TR,
+                GradientDrawable.Orientation.BOTTOM_TOP,
+                GradientDrawable.Orientation.BR_TL,
+                GradientDrawable.Orientation.RIGHT_LEFT,
+                GradientDrawable.Orientation.TR_BL,
+                GradientDrawable.Orientation.TOP_BOTTOM};
+    }
 
     static void DEFAULTS(Context context) {
 
